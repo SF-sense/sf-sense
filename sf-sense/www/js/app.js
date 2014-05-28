@@ -8,14 +8,26 @@ angular.module('sfSense', ['ionic'])
   // 4. create markers
   // 5. add markers to map  
   var map;
-  var createMarker = function(lat, lng, title) {
-    var latlng = new google.maps.LatLng(lat,lng);
+
+  var iconPath = '../img/icons/';
+
+  // TODO: add marker img for each category
+  var markerImg = {
+    'BURGLARY': 'robbery.png',
+    'LARCENY/THEFT': 'theft.png',
+    'ASSAULT': 'robbery.png',
+    'MISSING PERSON': 'missing.png'
+  };
+
+  var createMarker = function(marker) {
+    var latlng = new google.maps.LatLng(marker.lat,marker.lng);
 
     // create marker object
     new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
-      title: title,
+      title: marker.title,
+      icon: iconPath + markerImg[marker.category],
       map: map
     });
   };
@@ -34,10 +46,7 @@ angular.module('sfSense', ['ionic'])
     },
     createMarkers: function(markerLocs) {
       for(var i = 0; i < markerLocs.length; i++){
-        var lat = markerLocs[i].lat;
-        var lng = markerLocs[i].lng;
-        var title = markerLocs[i].title;
-        createMarker(lat,lng,title);
+        createMarker(markerLocs[i]);
       }
     },
     moveTo: function(lat, lng){
@@ -45,8 +54,8 @@ angular.module('sfSense', ['ionic'])
       map.panTo(latlng);
     },
     searchLoc: function(address) {
-      geocoder = new google.maps.Geocoder();
 
+      geocoder = new google.maps.Geocoder();
 
       geocoder.geocode( {'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
@@ -89,16 +98,19 @@ angular.module('sfSense', ['ionic'])
       { 
         lat: 37.783522,
         lng: -122.408999,
+        category: 'LARCENY/THEFT',
         title: 'test1'
       },
       { 
         lat: 37.783522,
         lng: -122.409999,
+        category: 'ASSAULT',
         title: 'test2'
       },
       { 
         lat: 37.783522,
         lng: -122.409878,
+        category: 'MISSING PERSON',
         title: 'test3'
       }      
     ];
