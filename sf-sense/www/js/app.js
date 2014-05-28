@@ -55,6 +55,15 @@ angular.module('sfSense', ['ionic'])
     },
     searchLoc: function(address) {
 
+      // format address to included san francisco
+      var city = 'san francisco';
+
+      var re = RegExp(city, 'i');
+
+      if(!re.exec(address)){
+        address = address + ' ' + city;
+      }
+
       geocoder = new google.maps.Geocoder();
 
       geocoder.geocode( {'address': address}, function(results, status) {

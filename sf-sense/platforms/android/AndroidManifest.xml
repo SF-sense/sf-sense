@@ -11,4 +11,8 @@
         </activity>
     </application>
     <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="19" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
 </manifest>
