@@ -11,6 +11,7 @@ angular.module('sfSense', ['ionic'])
   var createMarker = function(lat, lng, title) {
     var latlng = new google.maps.LatLng(lat,lng);
 
+    // create marker object
     new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
@@ -42,11 +43,34 @@ angular.module('sfSense', ['ionic'])
     moveTo: function(lat, lng){
       var latlng = new google.maps.LatLng(lat,lng);
       map.panTo(latlng);
-    }
+    },
+    searchLoc: function(address) {
+      geocoder = new google.maps.Geocoder();
+
+
+      geocoder.geocode( {'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+
+          // Add a center search location marker. Customise colour
+
+          // var marker = new google.maps.Marker({
+          //     map: map,
+          //     position: results[0].geometry.location
+          // });
+
+        } else {
+          // return a message if an error occurs
+
+          // alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+
+    }   
   }
 })
 
-.controller('MapCtrl', function($scope, GoogleMaps){
+.controller('MapCtrl', function($scope, googleMaps){
 
   var init = function() {
     // SF center lat and lng
@@ -58,12 +82,7 @@ angular.module('sfSense', ['ionic'])
 
   $scope.searchCrime = function() {
 
-    // $scope.mapSearch for user input
-    // Testing lat and long and panTo
-    var testLat = 37.783522;
-    var testLng = -122.409999;
-
-    googleMaps.moveTo(testLat, testLng);
+    googleMaps.searchLoc($scope.mapSearch);
 
     // Testing crime locations
     var testCrimeLocs = [
