@@ -53,7 +53,7 @@ angular.module('sfSense', ['ionic'])
       var latlng = new google.maps.LatLng(lat,lng);
       map.panTo(latlng);
     },
-    searchLoc: function(address) {
+    searchLocByAddress: function(address) {
 
       // format address to included san francisco
       var city = 'san francisco';
@@ -84,11 +84,15 @@ angular.module('sfSense', ['ionic'])
         }
       });
 
-    }   
+    },
+    searchLoc: function(lat, lng){
+      var latlng = new google.maps.LatLng(lat,lng);
+      map.setCenter(latlng);
+    }
   }
 })
 
-.controller('MapCtrl', function($scope, googleMaps){
+.controller('MapCtrl', function($scope, $http, googleMaps){
 
   var init = function() {
     // SF center lat and lng
@@ -98,9 +102,41 @@ angular.module('sfSense', ['ionic'])
     googleMaps.createMap(lat, lng);
   };
 
+  $scope.gpsSearchCrime = function(){
+
+    var onSuccess = function(pos){
+      var lat = pos.coords.latitude;
+      var lng = pos.coords.longitude;
+      googleMaps.searchLoc(lat, lng);
+
+      // fetch crime locations
+      // diplay markers
+    };
+
+    var onError = function(error) {
+      alert('code: '    + error.code    + '\n' +
+            'message: ' + error.message + '\n');
+    };
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  };
+
   $scope.searchCrime = function() {
 
-    googleMaps.searchLoc($scope.mapSearch);
+    googleMaps.searchLocByAddress($scope.mapSearch);
+
+    // $http({
+    //   url: "http://sf-sense-server.herokuapp.com/near?longitude=-122&latitude=37",
+    //   dataType: 'json',
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json; charset=utf-8"
+    //   }
+    // }).success(function(response){
+    //   console.log('SUCCESS');
+    // }).error(function(error){
+    //   console.log("ERROR");
+    // });
 
     // Testing crime locations
     var testCrimeLocs = [

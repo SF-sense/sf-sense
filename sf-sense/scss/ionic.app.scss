@@ -21,3 +21,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+#map-canvas { 
+  margin:20px 10px;
+  height: 300px; 
+  width: 300px; 
+}
+
+.map-container {
+  margin-top:20px;
+}

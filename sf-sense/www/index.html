@@ -8,9 +8,8 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above-->
     <link href="css/ionic.app.css" rel="stylesheet">
-    -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -23,15 +22,6 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
-    
-    <style type="text/css">
-      #map-canvas { 
-        margin:20px 10px;
-        height: 300px; 
-        width: 300px; 
-      }
-    </style>
-
   </head>
 
   <body ng-app="sfSense" ng-controller="MapCtrl">
@@ -46,10 +36,12 @@
           <button class="button button-clear button-positive" ng-click='searchCrime()'>
             Search
           </button>
-        </div>
+        </div>        
       </ion-header-bar>
 
-      <ion-content>
+      <ion-content class="map-container">
+
+        <button ng-click="gpsSearchCrime()" class="button button-block button-positive">Current Location</button>
 
         <div id='map-canvas'></div>
 
