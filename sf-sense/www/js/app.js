@@ -8,6 +8,7 @@ angular.module('sfSense', ['ionic'])
   // 4. create markers
   // 5. add markers to map  
   var map;
+  var markers = [];
 
   var iconPath = '../img/icons/';
 
@@ -89,8 +90,8 @@ angular.module('sfSense', ['ionic'])
       var latlng = new google.maps.LatLng(lat,lng);
       map.setCenter(latlng);
       cb(lat, lng);
-    }
-  }
+    },
+  };
 })
 
 .controller('MapCtrl', function($scope, $http, googleMaps){
