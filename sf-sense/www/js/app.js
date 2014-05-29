@@ -63,10 +63,7 @@ angular.module('sfSense', ['ionic'])
       map.panTo(latlng);
     },
     searchLocByAddress: function(address, cb) {
-
-      // format address to included san francisco
       var city = 'san francisco';
-
       var re = RegExp(city, 'i');
 
       if(!re.exec(address)){
@@ -81,17 +78,8 @@ angular.module('sfSense', ['ionic'])
 
           cb(results[0].geometry.location.k, results[0].geometry.location.A);
 
-          // Add a center search location marker. Customise colour
-
-          // var marker = new google.maps.Marker({
-          //     map: map,
-          //     position: results[0].geometry.location
-          // });
-
         } else {
-          // return a message if an error occurs
-
-          // alert('Geocode was not successful for the following reason: ' + status);
+          navigator.notification.alert('Error with find location: ' + status);
         }
       });
 
@@ -123,9 +111,7 @@ angular.module('sfSense', ['ionic'])
     };
 
     var onError = function(error) {
-      // TODO: output error message
-      alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
+      navigator.notification.alert('Code: ' + error.code + '\n' + 'Message:' + error.message);
     };
 
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
@@ -133,7 +119,7 @@ angular.module('sfSense', ['ionic'])
 
   $scope.getCrimes = function(lat, lng){
 
-    var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat;
+    var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat + "&distance=0.3";
 
     $http({
       url: url,
@@ -142,10 +128,7 @@ angular.module('sfSense', ['ionic'])
     }).success(function(response){
       googleMaps.createMarkers(response);
     }).error(function(error){
-      // TODO: output error message.
-      navigator.notification.alert(
-        'There was an error: ' + error  // message
-      );
+      navigator.notification.alert('There was an error: ' + error);
     });
   };
 
