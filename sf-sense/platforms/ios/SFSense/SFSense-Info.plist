@@ -79,5 +79,17 @@
     </array>
     <key>CFBundleShortVersionString</key>
     <string>0.0.1</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
+    </array>
   </dict>
 </plist>
