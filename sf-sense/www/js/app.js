@@ -132,17 +132,20 @@ angular.module('sfSense', ['ionic'])
   };
 
   $scope.getCrimes = function(lat, lng){
+
     var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat;
 
     $http({
-      url: restUrl,
+      url: url,
       dataType: 'json',
       method: "GET"
     }).success(function(response){
       googleMaps.createMarkers(response);
     }).error(function(error){
       // TODO: output error message.
-      console.log("ERROR");
+      navigator.notification.alert(
+        'There was an error: ' + error  // message
+      );
     });
   };
 
