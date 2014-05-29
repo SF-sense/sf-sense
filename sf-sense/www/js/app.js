@@ -36,7 +36,8 @@ angular.module('sfSense', ['ionic'])
       animation: google.maps.Animation.DROP,
       title: marker.title,
       icon: icon,
-      map: map
+      map: map,
+      draggable: false
     });
   };
 
