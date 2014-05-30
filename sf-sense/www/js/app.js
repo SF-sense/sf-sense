@@ -83,12 +83,16 @@ angular.module('sfSense', ['ionic'])
           navigator.notification.alert('Error with find location: ' + status);
         }
       });
-
     },
+
     searchLoc: function(lat, lng, cb){
       var latlng = new google.maps.LatLng(lat,lng);
       map.setCenter(latlng);
       cb(lat, lng);
+    },
+
+    filterBy: function(filter){
+      alert('filtered');
     }
   };
 })
@@ -140,7 +144,7 @@ angular.module('sfSense', ['ionic'])
   };
 
   $scope.filterBy = function (filter) {
-    alert('poop');
+    googleMaps.filterBy(filter);
   };
 
   init();
