@@ -59,7 +59,7 @@ angular.module('sfSense', ['ionic'])
     markers.push (new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
-      title: crime.title,
+      title: crime.category,
       icon: icon,
       map: map
     }));
