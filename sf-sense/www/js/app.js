@@ -121,12 +121,17 @@ angular.module('sfSense', ['ionic'])
           var cat = markers[i].title;
           if(!isViolent[cat]) { 
             markers[i].setMap(null);
+          } else {
+            // it shouldn't be filtered out
+            markers[i].setMap(map);
           }
         } else {
           // filter is non-violent, check for the opposite
           var cat = markers[i].title;
           if(isViolent[cat]) { 
             markers[i].setMap(null);
+          } else {
+            markers[i].setMap(map);
           }
         }
       }
