@@ -9,25 +9,33 @@ angular.module('sfSense', ['ionic'])
   // 5. add markers to map  
   var map;
 
-  var iconPath = '../img/icons/';
+  var iconPath = '../www/img/icons/';
 
   // TODO: add marker img for each category
   var markerImg = {
     'BURGLARY': 'robbery.png',
     'LARCENY/THEFT': 'theft.png',
     'ASSAULT': 'robbery.png',
-    'MISSING PERSON': 'missing.png'
+    'MISSING PERSON': 'missing.png',
+    'DEFAULT': 'missing.png'
   };
 
   var createMarker = function(marker) {
-    var latlng = new google.maps.LatLng(marker.lat,marker.lng);
+    var latlng = new google.maps.LatLng(marker.latitude,marker.longitude);
 
-    // create marker object
+    var icon;
+
+    if(markerImg[marker.category]){
+      icon = iconPath + markerImg[marker.category];
+    } else {
+      icon = iconPath + markerImg.DEFAULT;
+    }
+
     new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
       title: marker.title,
-      icon: iconPath + markerImg[marker.category],
+      icon: icon,
       map: map
     });
   };
@@ -44,20 +52,18 @@ angular.module('sfSense', ['ionic'])
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
     },
-    createMarkers: function(markerLocs) {
-      for(var i = 0; i < markerLocs.length; i++){
-        createMarker(markerLocs[i]);
+    createMarkers: function(crimes) {
+      console.log(crimes);
+      for(var i = 0; i < crimes.length; i++){
+        createMarker(crimes[i]);
       }
     },
     moveTo: function(lat, lng){
       var latlng = new google.maps.LatLng(lat,lng);
       map.panTo(latlng);
     },
-    searchLocByAddress: function(address) {
-
-      // format address to included san francisco
+    searchLocByAddress: function(address, cb) {
       var city = 'san francisco';
-
       var re = RegExp(city, 'i');
 
       if(!re.exec(address)){
@@ -70,24 +76,18 @@ angular.module('sfSense', ['ionic'])
         if (status == google.maps.GeocoderStatus.OK) {
           map.setCenter(results[0].geometry.location);
 
-          // Add a center search location marker. Customise colour
-
-          // var marker = new google.maps.Marker({
-          //     map: map,
-          //     position: results[0].geometry.location
-          // });
+          cb(results[0].geometry.location.k, results[0].geometry.location.A);
 
         } else {
-          // return a message if an error occurs
-
-          // alert('Geocode was not successful for the following reason: ' + status);
+          navigator.notification.alert('Error with find location: ' + status);
         }
       });
 
     },
-    searchLoc: function(lat, lng){
+    searchLoc: function(lat, lng, cb){
       var latlng = new google.maps.LatLng(lat,lng);
       map.setCenter(latlng);
+      cb(lat, lng);
     }
   }
 })
@@ -107,61 +107,34 @@ angular.module('sfSense', ['ionic'])
     var onSuccess = function(pos){
       var lat = pos.coords.latitude;
       var lng = pos.coords.longitude;
-      googleMaps.searchLoc(lat, lng);
-
-      // fetch crime locations
-      // diplay markers
+      googleMaps.searchLoc(lat, lng, $scope.getCrimes);
     };
 
     var onError = function(error) {
-      alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
+      navigator.notification.alert('Code: ' + error.code + '\n' + 'Message:' + error.message);
     };
 
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   };
 
+  $scope.getCrimes = function(lat, lng){
+
+    var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat + "&distance=0.3";
+
+    $http({
+      url: url,
+      dataType: 'json',
+      method: "GET"
+    }).success(function(response){
+      navigator.notification.alert('There was an error: ');
+      googleMaps.createMarkers(response);
+    }).error(function(error){
+      navigator.notification.alert('There was an error: ' + error);
+    });
+  };
+
   $scope.searchCrime = function() {
-
-    googleMaps.searchLocByAddress($scope.mapSearch);
-
-    // $http({
-    //   url: "http://sf-sense-server.herokuapp.com/near?longitude=-122&latitude=37",
-    //   dataType: 'json',
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json; charset=utf-8"
-    //   }
-    // }).success(function(response){
-    //   console.log('SUCCESS');
-    // }).error(function(error){
-    //   console.log("ERROR");
-    // });
-
-    // Testing crime locations
-    var testCrimeLocs = [
-      { 
-        lat: 37.783522,
-        lng: -122.408999,
-        category: 'LARCENY/THEFT',
-        title: 'test1'
-      },
-      { 
-        lat: 37.783522,
-        lng: -122.409999,
-        category: 'ASSAULT',
-        title: 'test2'
-      },
-      { 
-        lat: 37.783522,
-        lng: -122.409878,
-        category: 'MISSING PERSON',
-        title: 'test3'
-      }      
-    ];
-
-    // search for crimes in the radius of lat and lng from SFSense REST API
-    googleMaps.createMarkers(testCrimeLocs);
+    googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
   };
 
   init();

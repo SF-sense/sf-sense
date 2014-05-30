@@ -6,3 +6,4 @@ node_modules
 coverage
 platforms
 platforms/*
+platforms
