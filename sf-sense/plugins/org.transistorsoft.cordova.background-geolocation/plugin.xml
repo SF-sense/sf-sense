@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="org.transistorsoft.cordova.background-geolocation"
+    version="0.2.0">
+    <name>CDVBackgroundGeoLocation</name>
+    <description>Cordova Background GeoLocation Plugin</description>
+    <license>MIT</license>
+    <keywords>phonegap,background geolocation</keywords>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <dependency id="org.apache.cordova.geolocation" />
+
+    <js-module src="www/BackgroundGeoLocation.js" name="BackgroundGeoLocation">
+        <clobbers target="plugins.backgroundGeoLocation" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <source-file src="src/android/BackgroundGpsPlugin.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc" />
+        <source-file src="src/android/LocationUpdateService.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc" />
+        <source-file src="src/android/data/DAOFactory.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/data" />
+        <source-file src="src/android/data/Location.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/data" />
+        <source-file src="src/android/data/LocationDAO.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/data" />
+        <source-file src="src/android/data/sqlite/LocationOpenHelper.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/data/sqlite" />
+        <source-file src="src/android/data/sqlite/SQLiteLocationDAO.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/data/sqlite" />
+
+        <source-file src="src/android/notification.png" target-dir="res/drawable" />
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service android:name="com.tenforwardconsulting.cordova.bgloc.LocationUpdateService" android:enabled="true" android:process=":remote" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+        </config-file>   
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="BackgroundGeoLocation">
+                <param name="android-package" value="com.tenforwardconsulting.cordova.bgloc.BackgroundGpsPlugin"/>
+            </feature>
+        </config-file> 
+     </platform>          
+
+     <platform name="ios">
+        <!-- required background modes:  App registers for location updates -->
+        <config-file target="*-Info.plist" parent="UIBackgroundModes">
+            <array>
+                <string>location</string>
+            </array>
+        </config-file>
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="BackgroundGeoLocation">
+                <param name="ios-package" value="CDVBackgroundGeoLocation"/>
+            </feature>
+        </config-file>
+        <framework src="AudioToolbox.framework" weak="true" />
+        <framework src="AVFoundation.framework" weak="true" />
+        <source-file src="src/ios/CDVBackgroundGeoLocation.m" />
+        <header-file src="src/ios/CDVBackgroundGeoLocation.h" />
+     </platform>          
+
+</plugin>

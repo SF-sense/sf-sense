@@ -69,6 +69,13 @@ module.exports = [
         "merges": [
             "navigator.notification"
         ]
+    },
+    {
+        "file": "plugins/org.transistorsoft.cordova.background-geolocation/www/BackgroundGeoLocation.js",
+        "id": "org.transistorsoft.cordova.background-geolocation.BackgroundGeoLocation",
+        "clobbers": [
+            "plugins.backgroundGeoLocation"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -79,7 +86,8 @@ module.exports.metadata =
     "org.apache.cordova.device": "0.2.9",
     "org.apache.cordova.geolocation": "0.3.8-dev",
     "org.apache.cordova.vibration": "0.3.9-dev",
-    "org.apache.cordova.dialogs": "0.2.8-dev"
+    "org.apache.cordova.dialogs": "0.2.8-dev",
+    "org.transistorsoft.cordova.background-geolocation": "0.2.0"
 }
 // BOTTOM OF METADATA
 });
