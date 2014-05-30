@@ -8,6 +8,7 @@ angular.module('sfSense', ['ionic'])
   // 4. create markers
   // 5. add markers to map  
   var map;
+  var markers = [];
 
   var iconPath = '../www/img/icons/';
 
@@ -31,13 +32,13 @@ angular.module('sfSense', ['ionic'])
       icon = iconPath + markerImg.DEFAULT;
     }
 
-    new google.maps.Marker({
+    markers.push (new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
       title: marker.title,
       icon: icon,
       map: map
-    });
+    }));
   };
 
   return {
