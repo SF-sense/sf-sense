@@ -119,9 +119,14 @@ angular.module('sfSense', ['ionic'])
         if (filter === 'violent') {
           // check category against isViolent, if isViolent is false, hide it
           var cat = markers[i].title;
-          if(!isViolent.cat) { 
+          if(!isViolent[cat]) { 
             markers[i].setMap(null);
-            console.log(markers[i].title);
+          }
+        } else {
+          // filter is non-violent, check for the opposite
+          var cat = markers[i].title;
+          if(isViolent[cat]) { 
+            markers[i].setMap(null);
           }
         }
       }
