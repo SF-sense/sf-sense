@@ -8,6 +8,7 @@ angular.module('sfSense', ['ionic'])
   // 4. create markers
   // 5. add markers to map  
   var map;
+  var markers = [];
 
   var iconPath = '../www/img/icons/';
 
@@ -20,24 +21,24 @@ angular.module('sfSense', ['ionic'])
     'DEFAULT': 'missing.png'
   };
 
-  var createMarker = function(marker) {
-    var latlng = new google.maps.LatLng(marker.latitude,marker.longitude);
+  var createMarker = function(crime) {
+    var latlng = new google.maps.LatLng(crime.latitude,crime.longitude);
 
     var icon;
 
-    if(markerImg[marker.category]){
-      icon = iconPath + markerImg[marker.category];
+    if(markerImg[crime.category]){
+      icon = iconPath + markerImg[crime.category];
     } else {
       icon = iconPath + markerImg.DEFAULT;
     }
 
-    new google.maps.Marker({
+    markers.push (new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
-      title: marker.title,
+      title: crime.title,
       icon: icon,
       map: map
-    });
+    }));
   };
 
   return {
@@ -89,7 +90,7 @@ angular.module('sfSense', ['ionic'])
       map.setCenter(latlng);
       cb(lat, lng);
     }
-  }
+  };
 })
 
 .controller('MapCtrl', function($scope, $http, googleMaps){
