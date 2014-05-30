@@ -9,7 +9,7 @@ angular.module('sfSense', ['ionic'])
   // 5. add markers to map  
   var map;
 
-  var iconPath = '../img/icons/';
+  var iconPath = '../www/img/icons/';
 
   // TODO: add marker img for each category
   var markerImg = {
