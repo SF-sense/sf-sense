@@ -28,7 +28,7 @@ angular.module('sfSense', ['ionic'])
     if(markerImg[marker.category]){
       icon = iconPath + markerImg[marker.category];
     } else {
-      icon = iconPath + markerImg['DEFAULT'];
+      icon = iconPath + markerImg.DEFAULT;
     }
 
     new google.maps.Marker({
