@@ -42,7 +42,7 @@ angular.module('sfSense', ['ionic'])
     'LARCENY/THEFT': 'theft.png',
     'ASSAULT': 'robbery.png',
     'MISSING PERSON': 'missing.png',
-    'DEFAULT': 'missing.png'
+    'DEFAULT': 'blast.png'
   };
 
   var createMarker = function(crime) {
