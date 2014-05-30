@@ -31,6 +31,10 @@
                         {
                             "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"BackgroundGeoLocation\"><param name=\"ios-package\" value=\"CDVBackgroundGeoLocation\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -40,7 +44,23 @@
                     "AudioToolbox.framework": [
                         {
                             "xml": "true",
-                            "count": 2
+                            "count": 3
+                        }
+                    ],
+                    "AVFoundation.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "*-Info.plist": {
+                "parents": {
+                    "UIBackgroundModes": [
+                        {
+                            "xml": "<array><string>location</string></array>",
+                            "count": 1
                         }
                     ]
                 }
@@ -64,6 +84,9 @@
             "PACKAGE_NAME": "com.ionicframework.starter"
         },
         "org.apache.cordova.dialogs": {
+            "PACKAGE_NAME": "com.ionicframework.starter"
+        },
+        "org.transistorsoft.cordova.background-geolocation": {
             "PACKAGE_NAME": "com.ionicframework.starter"
         }
     },
