@@ -21,13 +21,13 @@ angular.module('sfSense', ['ionic'])
     'DEFAULT': 'missing.png'
   };
 
-  var createMarker = function(marker) {
-    var latlng = new google.maps.LatLng(marker.latitude,marker.longitude);
+  var createMarker = function(crime) {
+    var latlng = new google.maps.LatLng(crime.latitude,crime.longitude);
 
     var icon;
 
-    if(markerImg[marker.category]){
-      icon = iconPath + markerImg[marker.category];
+    if(markerImg[crime.category]){
+      icon = iconPath + markerImg[crime.category];
     } else {
       icon = iconPath + markerImg.DEFAULT;
     }
@@ -35,7 +35,7 @@ angular.module('sfSense', ['ionic'])
     markers.push (new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
-      title: marker.title,
+      title: crime.title,
       icon: icon,
       map: map
     }));
