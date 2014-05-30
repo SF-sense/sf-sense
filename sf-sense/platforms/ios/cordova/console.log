@@ -87,3 +87,47 @@
 2014-05-28 15:15:41.453 SFSense[12017:80b] [CDVTimer][TotalPluginStartup] 1.080036ms
 2014-05-28 15:15:41.482 SFSense[12017:80b] Resetting plugins due to page load.
 2014-05-28 15:15:41.919 SFSense[12017:80b] Finished load of: file:///Users/mattolde/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/DEA9EE75-034A-4676-96FD-F388F53D4096/SFSense.app/www/index.html
+2014-05-29 14:15:20.957 SFSense[15550:80b] Multi-tasking -> Device: YES, App: YES
+2014-05-29 14:15:20.981 SFSense[15550:80b] Unlimited access to network resources
+2014-05-29 14:15:21.244 SFSense[15550:80b] [CDVTimer][keyboard] 0.100017ms
+2014-05-29 14:15:21.244 SFSense[15550:80b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-05-29 14:15:21.245 SFSense[15550:80b] [CDVTimer][statusbar] 0.362039ms
+2014-05-29 14:15:21.245 SFSense[15550:80b] [CDVTimer][TotalPluginStartup] 1.341999ms
+2014-05-29 14:15:21.465 SFSense[15550:80b] Resetting plugins due to page load.
+2014-05-29 14:15:30.881 SFSense[15550:80b] Finished load of: file:///Users/mattolde/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/DEA9EE75-034A-4676-96FD-F388F53D4096/SFSense.app/www/index.html
+2014-05-29 14:49:21.671 SFSense[16458:80b] Multi-tasking -> Device: YES, App: YES
+2014-05-29 14:49:21.676 SFSense[16458:80b] Unlimited access to network resources
+2014-05-29 14:49:21.694 SFSense[16458:80b] [CDVTimer][keyboard] 0.059009ms
+2014-05-29 14:49:21.694 SFSense[16458:80b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-05-29 14:49:21.694 SFSense[16458:80b] [CDVTimer][statusbar] 0.295997ms
+2014-05-29 14:49:21.695 SFSense[16458:80b] [CDVTimer][TotalPluginStartup] 1.039982ms
+2014-05-29 14:49:21.725 SFSense[16458:80b] Resetting plugins due to page load.
+2014-05-29 14:49:27.800 SFSense[16458:80b] Finished load of: file:///Users/mattolde/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/DEA9EE75-034A-4676-96FD-F388F53D4096/SFSense.app/www/index.html
+2014-05-29 14:50:00.061 SFSense[16458:80b] THREAD WARNING: ['Notification'] took '17.404053' ms. Plugin should use a background thread.
+2014-05-29 14:50:02.610 SFSense[16458:80b] 1
+2014-05-29 14:51:11.856 SFSense[16897:80b] Multi-tasking -> Device: YES, App: YES
+2014-05-29 14:51:11.862 SFSense[16897:80b] Unlimited access to network resources
+2014-05-29 14:51:11.877 SFSense[16897:80b] [CDVTimer][keyboard] 0.050008ms
+2014-05-29 14:51:11.877 SFSense[16897:80b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-05-29 14:51:11.877 SFSense[16897:80b] [CDVTimer][statusbar] 0.292003ms
+2014-05-29 14:51:11.878 SFSense[16897:80b] [CDVTimer][TotalPluginStartup] 1.015007ms
+2014-05-29 14:51:11.907 SFSense[16897:80b] Resetting plugins due to page load.
+2014-05-29 14:51:19.901 SFSense[16897:80b] Finished load of: file:///Users/mattolde/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/DEA9EE75-034A-4676-96FD-F388F53D4096/SFSense.app/www/index.html
+2014-05-29 14:53:01.414 SFSense[17320:80b] Multi-tasking -> Device: YES, App: YES
+2014-05-29 14:53:01.420 SFSense[17320:80b] Unlimited access to network resources
+2014-05-29 14:53:01.434 SFSense[17320:80b] [CDVTimer][keyboard] 0.056982ms
+2014-05-29 14:53:01.435 SFSense[17320:80b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-05-29 14:53:01.435 SFSense[17320:80b] [CDVTimer][statusbar] 0.326991ms
+2014-05-29 14:53:01.435 SFSense[17320:80b] [CDVTimer][TotalPluginStartup] 1.063943ms
+2014-05-29 14:53:01.462 SFSense[17320:80b] Resetting plugins due to page load.
+2014-05-29 14:53:08.557 SFSense[17320:80b] Finished load of: file:///Users/mattolde/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/DEA9EE75-034A-4676-96FD-F388F53D4096/SFSense.app/www/index.html
+2014-05-29 14:54:17.646 SFSense[17740:80b] Multi-tasking -> Device: YES, App: YES
+2014-05-29 14:54:17.651 SFSense[17740:80b] Unlimited access to network resources
+2014-05-29 14:54:17.667 SFSense[17740:80b] [CDVTimer][keyboard] 0.079989ms
+2014-05-29 14:54:17.668 SFSense[17740:80b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-05-29 14:54:17.668 SFSense[17740:80b] [CDVTimer][statusbar] 0.301003ms
+2014-05-29 14:54:17.668 SFSense[17740:80b] [CDVTimer][TotalPluginStartup] 1.218021ms
+2014-05-29 14:54:17.695 SFSense[17740:80b] Resetting plugins due to page load.
+2014-05-29 14:54:20.759 SFSense[17740:80b] Finished load of: file:///Users/mattolde/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/DEA9EE75-034A-4676-96FD-F388F53D4096/SFSense.app/www/index.html
+2014-05-29 14:54:36.031 SFSense[17740:80b] []
+2014-05-29 14:54:36.047 SFSense[17740:80b] THREAD WARNING: ['Notification'] took '14.957031' ms. Plugin should use a background thread.
