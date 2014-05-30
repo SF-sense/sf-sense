@@ -78,7 +78,6 @@ angular.module('sfSense', ['ionic'])
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
     },
     createMarkers: function(crimes) {
-      console.log(crimes);
       for(var i = 0; i < crimes.length; i++){
         createMarker(crimes[i]);
       }
@@ -116,7 +115,20 @@ angular.module('sfSense', ['ionic'])
     },
 
     filterBy: function(filter){
-      alert('filtered');
+      
+
+      
+      // for (var i = 0; i < markers.length; i++){
+      //   if (filter === 'violent') {
+      //     // check category against isViolent, if isViolent is false, hide it
+      //     var cat = markers[i].title;
+      //     console.log(markers[i].title);
+      //     if(!isViolent.cat) { 
+      //       markers[i].map = null;
+      //       console.log(markers[i].title);
+      //     }
+      //   }
+      // }
     }
   };
 })
@@ -167,8 +179,8 @@ angular.module('sfSense', ['ionic'])
     googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
   };
 
-  $scope.filterBy = function (filter) {
-    googleMaps.filterBy(filter);
+  $scope.filterBy = function (filterArg) {
+    googleMaps.filterBy(filterArg);
   };
 
   init();
