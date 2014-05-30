@@ -89,7 +89,7 @@ angular.module('sfSense', ['ionic'])
       map.setCenter(latlng);
       cb(lat, lng);
     }
-  }
+  };
 })
 
 .controller('MapCtrl', function($scope, $http, googleMaps){
