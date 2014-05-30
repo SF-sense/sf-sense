@@ -115,20 +115,16 @@ angular.module('sfSense', ['ionic'])
     },
 
     filterBy: function(filter){
-      
-
-      
-      // for (var i = 0; i < markers.length; i++){
-      //   if (filter === 'violent') {
-      //     // check category against isViolent, if isViolent is false, hide it
-      //     var cat = markers[i].title;
-      //     console.log(markers[i].title);
-      //     if(!isViolent.cat) { 
-      //       markers[i].map = null;
-      //       console.log(markers[i].title);
-      //     }
-      //   }
-      // }
+      for (var i = 0; i < markers.length; i++){
+        if (filter === 'violent') {
+          // check category against isViolent, if isViolent is false, hide it
+          var cat = markers[i].title;
+          if(!isViolent.cat) { 
+            markers[i].setMap(null);
+            console.log(markers[i].title);
+          }
+        }
+      }
     }
   };
 })
