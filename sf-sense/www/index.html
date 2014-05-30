@@ -43,7 +43,11 @@
 
         <button ng-click="gpsSearchCrime()" class="button button-block button-positive">Current Location</button>
 
-        <div id='map-canvas'></div>
+        <div id="map-canvas"></div>
+
+        <div ng-repeat="filter in filters">
+          <button class="filterButton" ng-click="filterBy({{filter}})">{{filter}}</button>
+        </div>
 
       </ion-content>
     </ion-pane>

@@ -95,6 +95,8 @@ angular.module('sfSense', ['ionic'])
 
 .controller('MapCtrl', function($scope, $http, googleMaps){
 
+  $scope.filters = ['violent', 'non-violent'];
+
   var init = function() {
     // SF center lat and lng
     var lat = 37.783522;
@@ -135,6 +137,10 @@ angular.module('sfSense', ['ionic'])
 
   $scope.searchCrime = function() {
     googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
+  };
+
+  $scope.filterBy = function (filter) {
+    alert('poop');
   };
 
   init();
