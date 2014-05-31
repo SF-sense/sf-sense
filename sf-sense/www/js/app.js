@@ -166,7 +166,11 @@ angular.module('sfSense', ['ionic'])
     googleMaps.createMap(lat, lng);
 
     // After map has been created, add listeners here
-    googleMaps.addListener('dragend', function(){googleMaps.getCenter()});
+    googleMaps.addListener('dragend', function(){
+      // get the lng and lat and call getCrimes with them
+      var newCenter = googleMaps.getCenter();
+      $scope.getCrimes(newCenter.lat(), newCenter.lng);
+    });
   };
 
   $scope.gpsSearchCrime = function(){
