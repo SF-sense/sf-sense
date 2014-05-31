@@ -82,7 +82,7 @@ angular.module('sfSense', ['ionic'])
     // Once the map has been created, call addListener
     // Moving method outside of the create call allows access to other services in googleMaps
     // There will only be one map variable so accept only the event and function
-    addListener: function (event, func) {
+    addListener: function(event, func) {
       google.maps.event.addListener(map, event, func);
     },
 
@@ -96,6 +96,12 @@ angular.module('sfSense', ['ionic'])
       var latlng = new google.maps.LatLng(lat,lng);
       map.panTo(latlng);
     },
+
+    getCenter: function() {
+      // returns latlng object with lat() and lng() methods
+      return map.getCenter();
+    },
+
     searchLocByAddress: function(address, cb) {
       var city = 'san francisco';
       var re = RegExp(city, 'i');
@@ -160,7 +166,7 @@ angular.module('sfSense', ['ionic'])
     googleMaps.createMap(lat, lng);
 
     // After map has been created, add listeners here
-    googleMaps.addListener('dragend', function(){alert('ay');});
+    googleMaps.addListener('dragend', function(){googleMaps.getCenter()});
   };
 
   $scope.gpsSearchCrime = function(){
