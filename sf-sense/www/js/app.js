@@ -76,6 +76,11 @@ angular.module('sfSense', ['ionic'])
       };
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+      // since map has been instantiated here, add map event listeners here as well
+      google.maps.event.addListener(map, 'dragend', function(){
+        alert('poopy');
+      });
     },
     createMarkers: function(crimes) {
       for(var i = 0; i < crimes.length; i++){
