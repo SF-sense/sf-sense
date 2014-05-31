@@ -78,10 +78,18 @@ angular.module('sfSense', ['ionic'])
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
       // since map has been instantiated here, add map event listeners here as well
-      google.maps.event.addListener(map, 'dragend', function(){
-        alert('poopy');
-      });
+      // google.maps.event.addListener(map, 'dragend', function(){
+      // });
     },
+
+    addListener: function (event, func) {
+      google.maps.event.addListener(map, event, func);
+    },
+
+    testFunc: function () {
+      alert('poo');
+    },
+
     createMarkers: function(crimes) {
       for(var i = 0; i < crimes.length; i++){
         createMarker(crimes[i]);
@@ -153,6 +161,7 @@ angular.module('sfSense', ['ionic'])
     var lng = -122.408964;
 
     googleMaps.createMap(lat, lng);
+    googleMaps.addListener('dragend', googleMaps.testFunc);
   };
 
   $scope.gpsSearchCrime = function(){
