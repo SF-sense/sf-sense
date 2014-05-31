@@ -200,6 +200,8 @@ angular.module('sfSense', ['ionic'])
   };
 
   $scope.searchCrime = function() {
+    // $scope.mapSearch is a street address
+    // on success, calls getCrimes with the lat/lng
     googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
   };
 
