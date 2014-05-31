@@ -76,18 +76,14 @@ angular.module('sfSense', ['ionic'])
       };
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-      // since map has been instantiated here, add map event listeners here as well
-      // google.maps.event.addListener(map, 'dragend', function(){
-      // });
     },
 
+    // CreateMap is not invoked yet so we define addListener to add the event listener
+    // Once the map has been created, call addListener
+    // Moving method outside of the create call allows access to other services in googleMaps
+    // There will only be one map variable so accept only the event and function
     addListener: function (event, func) {
       google.maps.event.addListener(map, event, func);
-    },
-
-    testFunc: function () {
-      alert('poo');
     },
 
     createMarkers: function(crimes) {
@@ -95,6 +91,7 @@ angular.module('sfSense', ['ionic'])
         createMarker(crimes[i]);
       }
     },
+
     moveTo: function(lat, lng){
       var latlng = new google.maps.LatLng(lat,lng);
       map.panTo(latlng);
@@ -161,7 +158,9 @@ angular.module('sfSense', ['ionic'])
     var lng = -122.408964;
 
     googleMaps.createMap(lat, lng);
-    googleMaps.addListener('dragend', googleMaps.testFunc);
+
+    // After map has been created, add listeners here
+    googleMaps.addListener('dragend', function(){alert('ay');});
   };
 
   $scope.gpsSearchCrime = function(){
