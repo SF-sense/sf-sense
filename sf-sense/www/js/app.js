@@ -92,6 +92,15 @@ angular.module('sfSense', ['ionic'])
       }
     },
 
+    removeMarkers: function() {
+      // first hide all the markers by setting map to null
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+      // we no longer want access to the markers so remove them
+      markers = [];
+    },
+
     moveTo: function(lat, lng){
       var latlng = new google.maps.LatLng(lat,lng);
       map.panTo(latlng);
@@ -169,6 +178,7 @@ angular.module('sfSense', ['ionic'])
     googleMaps.addListener('dragend', function(){
       // get the lng and lat and call getCrimes with them
       var newCenter = googleMaps.getCenter();
+      googleMaps.removeMarkers();
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
   };
