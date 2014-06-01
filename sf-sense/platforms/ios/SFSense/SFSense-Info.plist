@@ -82,6 +82,10 @@
     <key>UIBackgroundModes</key>
     <array>
       <string>location</string>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
+      <string>location</string>
     </array>
   </dict>
 </plist>

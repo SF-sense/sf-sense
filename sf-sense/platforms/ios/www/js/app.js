@@ -8,28 +8,61 @@ angular.module('sfSense', ['ionic'])
   // 4. create markers
   // 5. add markers to map  
   var map;
+  var markers = [];
+  var isViolent = {
+    'ASSAULT': true,
+    'NON-CRIMINAL': false,
+    'OTHER OFFENSES': false,
+    'ROBBERY': true,
+    'LARCENY/THEFT': false,
+    'VANDALISM': false,
+    'BURGLARY': false,
+    'VEHICLE THEFT': false,
+    'FRAUD': false,
+    'DRUNKENNESS': false,
+    'WARRANTS': false,
+    'TRESPASS': false,
+    'KIDNAPPING': true,
+    'SEX OFFENSES': true,
+    'WEAPON LAWS': true,
+    'DRUG/NARCOTIC': false,
+    'FORGERY/COUNTERFEITING': false,
+    'MISSING PERSON': false,
+    'LIQUOR LAWS': false,
+    'BAD CHECKS': false,
+    'RUNAWAY': false,
+    'EMBEZZLEMENT': false
+  };
 
-  var iconPath = '../img/icons/';
+  var iconPath = '../www/img/icons/';
 
   // TODO: add marker img for each category
   var markerImg = {
     'BURGLARY': 'robbery.png',
     'LARCENY/THEFT': 'theft.png',
     'ASSAULT': 'robbery.png',
-    'MISSING PERSON': 'missing.png'
+    'MISSING PERSON': 'missing.png',
+    'DEFAULT': 'blast.png'
   };
 
-  var createMarker = function(marker) {
-    var latlng = new google.maps.LatLng(marker.lat,marker.lng);
+  var createMarker = function(crime) {
+    var latlng = new google.maps.LatLng(crime.latitude,crime.longitude);
 
-    // create marker object
-    new google.maps.Marker({
+    var icon;
+
+    if(markerImg[crime.category]){
+      icon = iconPath + markerImg[crime.category];
+    } else {
+      icon = iconPath + markerImg.DEFAULT;
+    }
+
+    markers.push (new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
-      title: marker.title,
-      icon: iconPath + markerImg[marker.category],
+      title: crime.category,
+      icon: icon,
       map: map
-    });
+    }));
   };
 
   return {
@@ -44,20 +77,33 @@ angular.module('sfSense', ['ionic'])
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
     },
-    createMarkers: function(markerLocs) {
-      for(var i = 0; i < markerLocs.length; i++){
-        createMarker(markerLocs[i]);
+
+    // CreateMap is not invoked yet so we define addListener to add the event listener
+    // Once the map has been created, call addListener
+    // Moving method outside of the create call allows access to other services in googleMaps
+    // There will only be one map variable so accept only the event and function
+    addListener: function(event, func) {
+      google.maps.event.addListener(map, event, func);
+    },
+
+    createMarkers: function(crimes) {
+      for(var i = 0; i < crimes.length; i++){
+        createMarker(crimes[i]);
       }
     },
+
     moveTo: function(lat, lng){
       var latlng = new google.maps.LatLng(lat,lng);
       map.panTo(latlng);
     },
-    searchLocByAddress: function(address) {
 
-      // format address to included san francisco
+    getCenter: function() {
+      // returns latlng object with lat() and lng() methods
+      return map.getCenter();
+    },
+
+    searchLocByAddress: function(address, cb) {
       var city = 'san francisco';
-
       var re = RegExp(city, 'i');
 
       if(!re.exec(address)){
@@ -70,29 +116,47 @@ angular.module('sfSense', ['ionic'])
         if (status == google.maps.GeocoderStatus.OK) {
           map.setCenter(results[0].geometry.location);
 
-          // Add a center search location marker. Customise colour
-
-          // var marker = new google.maps.Marker({
-          //     map: map,
-          //     position: results[0].geometry.location
-          // });
+          cb(results[0].geometry.location.k, results[0].geometry.location.A);
 
         } else {
-          // return a message if an error occurs
-
-          // alert('Geocode was not successful for the following reason: ' + status);
+          navigator.notification.alert('Error with find location: ' + status);
         }
       });
-
     },
-    searchLoc: function(lat, lng){
+
+    searchLoc: function(lat, lng, cb){
       var latlng = new google.maps.LatLng(lat,lng);
       map.setCenter(latlng);
+      cb(lat, lng);
+    },
+
+    filterBy: function(filter){
+      for (var i = 0; i < markers.length; i++){
+        var cat = markers[i].title;
+        if (filter === 'violent') {
+          // check category against isViolent, if isViolent is false, hide it
+          if(!isViolent[cat]) { 
+            markers[i].setMap(null);
+          } else {
+            // it shouldn't be filtered out
+            markers[i].setMap(map);
+          }
+        } else {
+          // filter is non-violent, check for the opposite
+          if(isViolent[cat]) { 
+            markers[i].setMap(null);
+          } else {
+            markers[i].setMap(map);
+          }
+        }
+      }
     }
-  }
+  };
 })
 
 .controller('MapCtrl', function($scope, $http, googleMaps){
+
+  $scope.filters = ['violent', 'non-violent'];
 
   var init = function() {
     // SF center lat and lng
@@ -100,6 +164,13 @@ angular.module('sfSense', ['ionic'])
     var lng = -122.408964;
 
     googleMaps.createMap(lat, lng);
+
+    // After map has been created, add listeners here
+    googleMaps.addListener('dragend', function(){
+      // get the lng and lat and call getCrimes with them
+      var newCenter = googleMaps.getCenter();
+      $scope.getCrimes(newCenter.lat(), newCenter.lng());
+    });
   };
 
   $scope.gpsSearchCrime = function(){
@@ -107,61 +178,42 @@ angular.module('sfSense', ['ionic'])
     var onSuccess = function(pos){
       var lat = pos.coords.latitude;
       var lng = pos.coords.longitude;
-      googleMaps.searchLoc(lat, lng);
-
-      // fetch crime locations
-      // diplay markers
+      googleMaps.searchLoc(lat, lng, $scope.getCrimes);
     };
 
     var onError = function(error) {
-      alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
+      navigator.notification.alert('Code: ' + error.code + '\n' + 'Message:' + error.message);
     };
 
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   };
 
+  $scope.getCrimes = function(lat, lng){
+
+    alert('LAT: ' + lat);
+    alert('LNG: ' + lng);
+
+    var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat + "&distance=0.3";
+
+    $http({
+      url: url,
+      dataType: 'json',
+      method: "GET"
+    }).success(function(response){
+      googleMaps.createMarkers(response);
+    }).error(function(error){
+      navigator.notification.alert('There was an error: ' + error);
+    });
+  };
+
   $scope.searchCrime = function() {
+    // $scope.mapSearch is a street address
+    // on success, calls getCrimes with the lat/lng
+    googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
+  };
 
-    googleMaps.searchLocByAddress($scope.mapSearch);
-
-    // $http({
-    //   url: "http://sf-sense-server.herokuapp.com/near?longitude=-122&latitude=37",
-    //   dataType: 'json',
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json; charset=utf-8"
-    //   }
-    // }).success(function(response){
-    //   console.log('SUCCESS');
-    // }).error(function(error){
-    //   console.log("ERROR");
-    // });
-
-    // Testing crime locations
-    var testCrimeLocs = [
-      { 
-        lat: 37.783522,
-        lng: -122.408999,
-        category: 'LARCENY/THEFT',
-        title: 'test1'
-      },
-      { 
-        lat: 37.783522,
-        lng: -122.409999,
-        category: 'ASSAULT',
-        title: 'test2'
-      },
-      { 
-        lat: 37.783522,
-        lng: -122.409878,
-        category: 'MISSING PERSON',
-        title: 'test3'
-      }      
-    ];
-
-    // search for crimes in the radius of lat and lng from SFSense REST API
-    googleMaps.createMarkers(testCrimeLocs);
+  $scope.filterBy = function (filterArg) {
+    googleMaps.filterBy(filterArg);
   };
 
   init();

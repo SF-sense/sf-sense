@@ -169,7 +169,7 @@ angular.module('sfSense', ['ionic'])
     googleMaps.addListener('dragend', function(){
       // get the lng and lat and call getCrimes with them
       var newCenter = googleMaps.getCenter();
-      $scope.getCrimes(newCenter.lat(), newCenter.lng);
+      $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
   };
 
