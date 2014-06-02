@@ -230,11 +230,42 @@ angular.module('sfSense', ['ionic'])
   $scope.searchCrime = function() {
     // $scope.mapSearch is a street address
     // on success, calls getCrimes with the lat/lng
-    googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
+
+    // if map search if undefined use current location. Placeholder is current location.
+    if(!$scope.mapSearch) {
+      $scope.gpsSearchCrime();
+    } else {
+      googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
+    }
   };
 
   $scope.filterBy = function (filterArg) {
     googleMaps.filterBy(filterArg);
+  };
+
+  $scope.trackLocation = function() {
+    alert('Tracking');
+    var bgGeo = window.plugins.backgroundGeoLocation;
+
+    var onSuccess = function(pos){
+      var lat = pos.latitude;
+      var lng = pos.longitude;
+      alert(lat);
+      // googleMaps.searchLoc(lat, lng, $scope.getCrimes);
+    };
+
+    var onError = function(error) {
+      navigator.notification.alert('Code: ' + error.code + '\n' + 'Message:' + error.message);
+    };
+
+    bgGeo.configure(onSuccess, onError, {
+        desiredAccuracy: 10,
+        stationaryRadius: 20,
+        distanceFilter: 30,
+        debug: true // <-- enable this hear sounds for background-geolocation life-cycle.
+    });
+
+    bgGeo.start();
   };
 
   init();
