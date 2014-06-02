@@ -9,6 +9,7 @@ angular.module('sfSense', ['ionic'])
   // 5. add markers to map  
   var map;
   var markers = [];
+  var infoWindows = [];
   var isViolent = {
     'ASSAULT': true,
     'NON-CRIMINAL': false,
@@ -56,13 +57,23 @@ angular.module('sfSense', ['ionic'])
       icon = iconPath + markerImg.DEFAULT;
     }
 
-    markers.push (new google.maps.Marker({
+    var newMarker = new google.maps.Marker({
       position: latlng,
       animation: google.maps.Animation.DROP,
       title: crime.category,
       icon: icon,
       map: map
-    }));
+    });
+
+    // make a new InfoWindow and associate it to the marker
+    newMarker.info = new google.maps.InfoWindow({
+      content: newMarker.title
+    });
+    // add the map listener here
+    google.maps.event.addListener(newMarker, 'click', function(){
+      newMarker.info.open(map, newMarker);
+      console.log(newMarker.info.content);
+    });
   };
 
   return {
