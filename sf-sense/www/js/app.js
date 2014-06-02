@@ -221,6 +221,9 @@ angular.module('sfSense', ['ionic'])
     var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat + "&distance=0.3";
 
     $http({
+      headers: {
+      "Authorization" : "Basic " + btoa("sf-sense:858F8CDDB1F324A762DBEFDC77844")
+      },
       url: url,
       dataType: 'json',
       method: "GET"
