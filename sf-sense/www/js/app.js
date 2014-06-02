@@ -67,7 +67,7 @@ angular.module('sfSense', ['ionic'])
 
     // make a new InfoWindow and associate it to the marker
     newMarker.info = new google.maps.InfoWindow({
-      content: newMarker.title
+      content: '<div>' + newMarker.title + '</div>'
     });
     // add the map listener here
     google.maps.event.addListener(newMarker, 'click', function(){
