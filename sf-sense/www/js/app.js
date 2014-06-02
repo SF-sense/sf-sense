@@ -190,6 +190,11 @@ angular.module('sfSense', ['ionic'])
 
   $scope.filters = ['violent', 'non-violent'];
 
+  var hideKeyboard = function() {
+    document.activeElement.blur();
+    $("input").blur();
+  };  
+
   var init = function() {
     // SF center lat and lng
     var lat = 37.783522;
@@ -250,6 +255,8 @@ angular.module('sfSense', ['ionic'])
     } else {
       googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
     }
+
+    hideKeyboard();
   };
 
   $scope.filterBy = function (filterArg) {

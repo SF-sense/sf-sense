@@ -28,18 +28,18 @@
 
     <ion-pane>
       <ion-header-bar class="bar bar-header bar-light">
-        <div class="bar bar-header item-input-inset">
-          <label class="item-input-wrapper">
-            <i class="icon ion-ios7-search placeholder-icon"></i>
-            <form>
-            <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch'>
-            </form>
-          </label>
-          
-          <button class="button button-clear button-positive" ng-click='searchCrime()'>
-            Search
-          </button>
-        </div>        
+        <form ng-submit="searchCrime()">
+          <div class="bar bar-header item-input-inset">
+            <label class="item-input-wrapper">
+              <i class="icon ion-ios7-search placeholder-icon"></i>
+              
+              <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch'>
+              
+            </label>
+            
+            <input type="submit" value="Search" class="button button-clear button-positive" />
+          </div>
+        </form>
       </ion-header-bar>
 
       <ion-content class="map-container">
@@ -49,14 +49,14 @@
         <div id="map-canvas"></div>
 
         <div class="list">
-
-          <label class="item item-input item-select">
-            <div class="input-label">Crime Filter</div>
-            <select ng-change="filterBy(filter)" ng-model="filter" ng-options="filter for filter in filters">
-              <option value="">All</option>
-            </select>
-          </label>
-
+          <form>
+            <label class="item item-input item-select">
+              <div class="input-label">Crime Filter</div>
+              <select ng-change="filterBy(filter)" ng-model="filter" ng-options="filter for filter in filters">
+                <option value="">All</option>
+              </select>
+            </label>
+          </form>
         </div>        
 
       </ion-content>
