@@ -31,7 +31,9 @@
         <div class="bar bar-header item-input-inset">
           <label class="item-input-wrapper">
             <i class="icon ion-ios7-search placeholder-icon"></i>
+            <form>
             <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch'>
+            </form>
           </label>
           
           <button class="button button-clear button-positive" ng-click='searchCrime()'>
@@ -46,9 +48,16 @@
 
         <div id="map-canvas"></div>
 
-        <div ng-repeat="filter in filters">
-          <button class="button button-energized button-block button-positive" ng-click="filterBy(filter);">{{filter}}</button>
-        </div>
+        <div class="list">
+
+          <label class="item item-input item-select">
+            <div class="input-label">Crime Filter</div>
+            <select ng-change="filterBy(filter)" ng-model="filter" ng-options="filter for filter in filters">
+              <option value="">All</option>
+            </select>
+          </label>
+
+        </div>        
 
       </ion-content>
     </ion-pane>
