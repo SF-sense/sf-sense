@@ -9,7 +9,6 @@ angular.module('sfSense', ['ionic'])
   // 5. add markers to map  
   var map;
   var markers = [];
-  var infoWindows = [];
   var isViolent = {
     'ASSAULT': true,
     'NON-CRIMINAL': false,
@@ -65,20 +64,18 @@ angular.module('sfSense', ['ionic'])
       map: map
     });
 
-    console.log('before creating info window');
-
     // make a new InfoWindow and associate it to the marker
     newMarker.info = new google.maps.InfoWindow({
       content: '<div>' + newMarker.title + '</div>'
     });
-    console.log('infowindow made', newMarker.info);
-    console.log('before adding listener');
-
     // add the map listener here
     google.maps.event.addListener(newMarker, 'click', function(){
+      console.log('inside click');
       newMarker.info.open(map, newMarker);
       console.log(newMarker.info.content);
     });
+
+    markers.push(newMarker);
   };
 
   return {
@@ -115,8 +112,6 @@ angular.module('sfSense', ['ionic'])
       }
       // we no longer want access to the markers so remove them
       markers = [];
-      // we no longer want access to the infoWindows so remove them
-      infoWindows = [];
     },
 
     moveTo: function(lat, lng){
@@ -158,8 +153,12 @@ angular.module('sfSense', ['ionic'])
     },
 
     filterBy: function(filter){
+      console.log('inside service filterBy');
+      console.log('markers length', markers.length);
+      console.log('map', map);
       for (var i = 0; i < markers.length; i++){
         var cat = markers[i].title;
+        console.log('cat', cat);
         if (filter === 'violent') {
           // check category against isViolent, if isViolent is false, hide it
           if(!isViolent[cat]) { 
@@ -245,6 +244,7 @@ angular.module('sfSense', ['ionic'])
   };
 
   $scope.filterBy = function (filterArg) {
+    console.log('inside scope filterBy', filterArg);
     googleMaps.filterBy(filterArg);
   };
 
