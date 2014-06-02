@@ -171,13 +171,15 @@ angular.module('sfSense', ['ionic'])
             // it shouldn't be filtered out
             marker.setMap(map); 
           }
-        } else {
+        } else if(filter === 'non-violent'){
           // filter is non-violent, check for the opposite
           if(isViolent[cat]) { 
             marker.setMap(null);
           } else {
             marker.setMap(map);
           }
+        } else {
+          marker.setMap(map);
         }
       }
     }
@@ -251,6 +253,7 @@ angular.module('sfSense', ['ionic'])
   };
 
   $scope.filterBy = function (filterArg) {
+    if (!filterArg) filterArg = 'all';
     googleMaps.filterBy(filterArg);
   };
 
@@ -270,10 +273,10 @@ angular.module('sfSense', ['ionic'])
     };
 
     bgGeo.configure(onSuccess, onError, {
-        desiredAccuracy: 10,
-        stationaryRadius: 20,
-        distanceFilter: 30,
-        debug: true // <-- enable this hear sounds for background-geolocation life-cycle.
+      desiredAccuracy: 10,
+      stationaryRadius: 20,
+      distanceFilter: 30,
+      debug: true // <-- enable this hear sounds for background-geolocation life-cycle.
     });
 
     bgGeo.start();
