@@ -35,3 +35,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 ::-webkit-input-placeholder {
   color:#0066FF !important;
 }
+
+form > .item-input-inset {
+  position: absolute;
+}
