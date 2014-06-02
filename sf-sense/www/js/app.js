@@ -76,7 +76,7 @@ angular.module('sfSense', ['ionic'])
         content: '<div>' + newMarker.title + '</div>'
       });
       // add the map listener here
-      google.maps.event.addListener(newMarker, 'click', function(){
+      google.maps.event.addListener(newMarker, 'mouseover', function(){
         newMarker.info.open(map, newMarker);
       });
 

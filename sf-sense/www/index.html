@@ -49,15 +49,19 @@
         <div id="map-canvas"></div>
 
         <div class="list">
-          <form>
-            <label class="item item-input item-select">
-              <div class="input-label">Crime Filter</div>
-              <select ng-change="filterBy(filter)" ng-model="filter" ng-options="filter for filter in filters">
-                <option value="">All</option>
-              </select>
-            </label>
-          </form>
-        </div>        
+          <label class="item item-input item-select">
+            <div class="input-label">Crime Filter</div>
+            <select ng-change="filterBy(filter)" ng-model="filter" ng-options="filter for filter in filters">
+              <option value="">All</option>
+            </select>
+          </label>
+        </div>
+
+        <button class="button button-energized button-block button-positive" ng-click="filterBy('all');">All</button>
+
+        <div ng-repeat="filter in filters">
+          <button class="button button-energized button-block button-positive" ng-click="filterBy(filter);">{{filter}}</button>
+        </div>
 
       </ion-content>
     </ion-pane>
