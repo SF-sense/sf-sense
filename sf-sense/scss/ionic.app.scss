@@ -27,9 +27,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   width: 300px; 
 }
 
-.map-container {
-  margin-top:20px;
-}
+// added margin as the map was going under the top bar on IOS emulator
+// .map-container {
+//   margin-top:20px;
+// }
 
 ::-webkit-input-placeholder {
   color:#0066FF !important;
