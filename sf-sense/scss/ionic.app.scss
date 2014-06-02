@@ -30,3 +30,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .map-container {
   margin-top:20px;
 }
+
+::-webkit-input-placeholder {
+  color:#0066FF !important;
+}
