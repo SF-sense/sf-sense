@@ -25,9 +25,6 @@
     <feature name="Console">
         <param name="ios-package" value="CDVLogger" />
     </feature>
-    <feature name="Device">
-        <param name="ios-package" value="CDVDevice" />
-    </feature>
     <feature name="Vibration">
         <param name="ios-package" value="CDVVibration" />
     </feature>
@@ -56,5 +53,8 @@
     </feature>
     <feature name="Geolocation">
         <param name="ios-package" value="CDVLocation" />
+    </feature>
+    <feature name="Device">
+        <param name="ios-package" value="CDVDevice" />
     </feature>
 </widget>
