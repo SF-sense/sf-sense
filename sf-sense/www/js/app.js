@@ -8,7 +8,7 @@ angular.module('sfSense', ['ionic'])
   // 4. create markers
   // 5. add markers to map  
   var map;
-  var markers = [];
+  var markers = {};
   var isViolent = {
     'ASSAULT': true,
     'NON-CRIMINAL': false,
@@ -46,36 +46,42 @@ angular.module('sfSense', ['ionic'])
   };
 
   var createMarker = function(crime) {
-    var latlng = new google.maps.LatLng(crime.latitude,crime.longitude);
 
-    var icon;
+    if (markers[crime.id] === undefined) { // if crime isn't displayed yet add it
+      var latlng = new google.maps.LatLng(crime.latitude,crime.longitude);
 
-    if(markerImg[crime.category]){
-      icon = iconPath + markerImg[crime.category];
-    } else {
-      icon = iconPath + markerImg.DEFAULT;
+      var icon;
+
+      if(markerImg[crime.category]){
+        icon = iconPath + markerImg[crime.category];
+      } else {
+        icon = iconPath + markerImg.DEFAULT;
+      }
+
+      var newMarker = new google.maps.Marker({
+        position: latlng,
+        animation: google.maps.Animation.DROP,
+        title: crime.category,
+        icon: icon,
+        map: map,
+        id: crime.id,
+        category: crime.category,
+        date: crime.date,
+        time: crime.time,
+        description: crime.descript      
+      });
+
+      // make a new InfoWindow and associate it to the marker
+      newMarker.info = new google.maps.InfoWindow({
+        content: '<div>' + newMarker.title + '</div>'
+      });
+      // add the map listener here
+      google.maps.event.addListener(newMarker, 'click', function(){
+        newMarker.info.open(map, newMarker);
+      });
+
+      markers[crime.id] = newMarker; // add it to the markers object
     }
-
-    var newMarker = new google.maps.Marker({
-      position: latlng,
-      animation: google.maps.Animation.DROP,
-      title: crime.category,
-      icon: icon,
-      map: map
-    });
-
-    // make a new InfoWindow and associate it to the marker
-    newMarker.info = new google.maps.InfoWindow({
-      content: '<div>' + newMarker.title + '</div>'
-    });
-    // add the map listener here
-    google.maps.event.addListener(newMarker, 'click', function(){
-      console.log('inside click');
-      newMarker.info.open(map, newMarker);
-      console.log(newMarker.info.content);
-    });
-
-    markers.push(newMarker);
   };
 
   return {
@@ -100,9 +106,9 @@ angular.module('sfSense', ['ionic'])
     },
 
     createMarkers: function(crimes) {
-      for(var i = 0; i < crimes.length; i++){
-        createMarker(crimes[i]);
-      }
+        for(var i = 0; i < crimes.length; i++){
+          createMarker(crimes[i]);
+        }
     },
 
     clearMap: function() {
@@ -111,7 +117,7 @@ angular.module('sfSense', ['ionic'])
         markers[i].setMap(null);
       }
       // we no longer want access to the markers so remove them
-      markers = [];
+      markers = {};
     },
 
     moveTo: function(lat, lng){
@@ -153,26 +159,24 @@ angular.module('sfSense', ['ionic'])
     },
 
     filterBy: function(filter){
-      console.log('inside service filterBy');
-      console.log('markers length', markers.length);
-      console.log('map', map);
-      for (var i = 0; i < markers.length; i++){
-        var cat = markers[i].title;
-        console.log('cat', cat);
+      for (var markerID in markers) {
+        var marker = markers[markerID];
+        var cat = marker.title;
+
         if (filter === 'violent') {
           // check category against isViolent, if isViolent is false, hide it
-          if(!isViolent[cat]) { 
-            markers[i].setMap(null);
+          if(!isViolent[cat]) {
+            marker.setMap(null);
           } else {
             // it shouldn't be filtered out
-            markers[i].setMap(map);
+            marker.setMap(map); 
           }
         } else {
           // filter is non-violent, check for the opposite
           if(isViolent[cat]) { 
-            markers[i].setMap(null);
+            marker.setMap(null);
           } else {
-            markers[i].setMap(map);
+            marker.setMap(map);
           }
         }
       }
@@ -196,7 +200,7 @@ angular.module('sfSense', ['ionic'])
       // get the lng and lat and call getCrimes with them
       var newCenter = googleMaps.getCenter();
       // clear the map of current markers and infowindows
-      googleMaps.clearMap();
+      // googleMaps.clearMap();
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
   };
@@ -247,7 +251,6 @@ angular.module('sfSense', ['ionic'])
   };
 
   $scope.filterBy = function (filterArg) {
-    console.log('inside scope filterBy', filterArg);
     googleMaps.filterBy(filterArg);
   };
 
