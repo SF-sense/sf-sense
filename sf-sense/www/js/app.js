@@ -69,7 +69,7 @@ angular.module('sfSense', ['ionic'])
         date: crime.date,
         time: crime.time,
         description: crime.descript,
-        type: crime.type
+        type: crime.type.toLowerCase()
       });
 
       // make a new InfoWindow and associate it to the marker
@@ -160,27 +160,21 @@ angular.module('sfSense', ['ionic'])
     },
 
     filterBy: function(filter){
+      //the filter will match the type field on the markers
       for (var markerID in markers) {
+        
         var marker = markers[markerID];
         var cat = marker.type;
 
-        if (filter === 'violent') {
-          // check category against isViolent, if isViolent is false, hide it
-          if(!isViolent[cat]) {
-            marker.setMap(null);
-          } else {
-            // it shouldn't be filtered out
-            marker.setMap(map); 
-          }
-        } else if(filter === 'non-violent'){
-          // filter is non-violent, check for the opposite
-          if(isViolent[cat]) { 
-            marker.setMap(null);
-          } else {
-            marker.setMap(map);
-          }
-        } else {
+        // check if the filter is all, if so, show all markers
+        if (filter === 'all') {
           marker.setMap(map);
+        } else { // a filter was specified
+          if (filter === cat) { // filter matches marker type
+            marker.setMap(map);
+          } else { // filter doesn't match marker type
+            marker.setMap(null);
+          }
         }
       }
     }

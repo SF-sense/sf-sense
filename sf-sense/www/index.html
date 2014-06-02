@@ -57,10 +57,29 @@
           </label>
         </div>
 
-        <button class="button button-energized button-block button-positive" ng-click="filterBy('all');">All</button>
+<!--         <button class="button button-energized button-block button-positive" ng-click="filterBy('all');">All</button>
 
         <div ng-repeat="filter in filters">
           <button class="button button-energized button-block button-positive" ng-click="filterBy(filter);">{{filter}} crimes nearby</button>
+        </div> -->
+
+        <div class="tabs tabs-icon-top">
+          <a class="tab-item" ng-click="filterBy('theft');">
+            <i class="icon ion-home"></i>
+            Thefts
+          </a>
+          <a class="tab-item" ng-click="filterBy('assault');">
+            <i class="icon ion-home"></i>
+            Assaults
+          </a>
+          <a class="tab-item" ng-click="filterBy('other');">
+            <i class="icon ion-star"></i>
+            Other
+          </a>
+          <a class="tab-item" ng-click="filterBy();">
+            <i class="icon ion-gear-a"></i>
+            All
+          </a>
         </div>
 
       </ion-content>
