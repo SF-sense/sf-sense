@@ -68,7 +68,8 @@ angular.module('sfSense', ['ionic'])
         category: crime.category,
         date: crime.date,
         time: crime.time,
-        description: crime.descript      
+        description: crime.descript,
+        type: crime.type
       });
 
       // make a new InfoWindow and associate it to the marker
@@ -161,7 +162,7 @@ angular.module('sfSense', ['ionic'])
     filterBy: function(filter){
       for (var markerID in markers) {
         var marker = markers[markerID];
-        var cat = marker.title;
+        var cat = marker.type;
 
         if (filter === 'violent') {
           // check category against isViolent, if isViolent is false, hide it
@@ -188,7 +189,7 @@ angular.module('sfSense', ['ionic'])
 
 .controller('MapCtrl', function($scope, $http, googleMaps){
 
-  $scope.filters = ['violent', 'non-violent'];
+  $scope.filters = ['other', 'assault', 'theft'];
 
   var hideKeyboard = function() {
     document.activeElement.blur();
