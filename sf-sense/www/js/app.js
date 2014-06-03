@@ -48,7 +48,7 @@ angular.module('sfSense', ['ionic'])
 
   var createMarker = function(crime) {
 
-    if (markers[crime.id] === undefined) { // if crime isn't displayed yet add it
+    if (markers[crime.id] === undefined) { // If crime isn't displayed yet add it
       var latlng = new google.maps.LatLng(crime.latitude,crime.longitude);
 
       var icon;
@@ -72,19 +72,23 @@ angular.module('sfSense', ['ionic'])
         type: crime.type.toLowerCase()
       });
 
-      // check if the marker should be displayed or not
+      // Check if the marker should be displayed or not
       if (filterOn === 'all' || filterOn === crime.type) {
         newMarker.setMap(map);
       }
-      // make a new InfoWindow and associate it to the marker
+      // Make a new InfoWindow and associate it to the marker
       newMarker.info = new google.maps.InfoWindow({
         content: '<div>' + newMarker.description + '</div>'
       });
-      // add the map listener here
+      // Add the map listener here
       google.maps.event.addListener(newMarker, 'mouseover', function(){
+        // Close all open crime info windows first
+        for (var crimeID in markers) {
+          markers[crimeID].info.close();
+        }
+        // Open the pertinent info window
         newMarker.info.open(map, newMarker);
       });
-
       markers[crime.id] = newMarker; // add it to the markers object
     }
   };
@@ -101,7 +105,11 @@ angular.module('sfSense', ['ionic'])
         zoomControl: false,
         mapTypeControl: false,
         streetViewControl: false,
-        overviewMapControl: false
+        overviewMapControl: false,
+        //begin map options to fix pinch displaying info windows bug
+        maxZoom: 17,
+        minZoom: 17,
+        scrollwheel: false
       };
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -116,9 +124,9 @@ angular.module('sfSense', ['ionic'])
     },
 
     createMarkers: function(crimes) {
-        for(var i = 0; i < crimes.length; i++){
-          createMarker(crimes[i]);
-        }
+      for(var i = 0; i < crimes.length; i++){
+        createMarker(crimes[i]);
+      }
     },
 
     clearMap: function() {
