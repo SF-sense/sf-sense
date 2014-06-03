@@ -105,15 +105,6 @@ angular.module('sfSense', ['ionic'])
       }
     },
 
-    clearMap: function() {
-      // First hide all the markers by setting map to null
-      for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-      }
-      // We no longer want access to the markers so remove them
-      markers = {};
-    },
-
     moveTo: function(lat, lng){
       var latlng = new google.maps.LatLng(lat,lng);
       map.panTo(latlng);
