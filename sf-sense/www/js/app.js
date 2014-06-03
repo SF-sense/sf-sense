@@ -189,7 +189,7 @@ angular.module('sfSense', ['ionic'])
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
 
-    $scope.trackLocation();
+    // $scope.trackLocation();
   };
 
   $scope.gpsSearchCrime = function(){
