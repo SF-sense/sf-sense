@@ -9,6 +9,7 @@ angular.module('sfSense', ['ionic'])
   // 5. add markers to map  
   var map;
   var markers = {};
+  var filterOn = 'all';
   var isViolent = {
     'ASSAULT': true,
     'NON-CRIMINAL': false,
@@ -63,7 +64,6 @@ angular.module('sfSense', ['ionic'])
         animation: google.maps.Animation.DROP,
         title: crime.category,
         icon: icon,
-        map: map,
         id: crime.id,
         category: crime.category,
         date: crime.date,
@@ -72,6 +72,10 @@ angular.module('sfSense', ['ionic'])
         type: crime.type.toLowerCase()
       });
 
+      // check if the marker should be displayed or not
+      if (filterOn === 'all' || filterOn === crime.type) {
+        newMarker.setMap(map);
+      }
       // make a new InfoWindow and associate it to the marker
       newMarker.info = new google.maps.InfoWindow({
         content: '<div>' + newMarker.description + '</div>'
@@ -165,7 +169,9 @@ angular.module('sfSense', ['ionic'])
     },
 
     filterBy: function(filter){
-      //the filter will match the type field on the markers
+      // set filterOn
+      filterOn = filter;
+      // the filter will match the type field on the markers
       for (var markerID in markers) {
         
         var marker = markers[markerID];
