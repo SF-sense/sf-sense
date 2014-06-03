@@ -166,7 +166,36 @@ angular.module('sfSense', ['ionic'])
   };
 })
 
-.controller('MapCtrl', function($scope, $http, googleMaps){
+.factory('LoaderService', function($rootScope, $ionicLoading) {
+  return {
+    show : function() {
+      $rootScope.loading = $ionicLoading.show({
+
+        // The text to display in the loading indicator
+        content: '<i class="icon ion-looping"></i> Loading',
+
+        // The animation to use
+        animation: 'fade-in',
+
+        // Will a dark overlay or backdrop cover the entire view
+        showBackdrop: true,
+
+        // The maximum width of the loading indicator
+        // Text will be wrapped if longer than maxWidth
+        maxWidth: 200,
+
+        // The delay in showing the indicator
+        showDelay: 10
+      });
+    },
+
+    hide : function(){
+      $rootScope.loading.hide();
+    }
+  }
+})
+
+.controller('MapCtrl', function($scope, $http, googleMaps, LoaderService){
 
   $scope.filters = ['other', 'assault', 'theft'];
 
@@ -209,6 +238,8 @@ angular.module('sfSense', ['ionic'])
 
   $scope.getCrimes = function(lat, lng, cb){
 
+    LoaderService.show();
+
     var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat + "&distance=0.3";
 
     $http({
@@ -221,10 +252,12 @@ angular.module('sfSense', ['ionic'])
     }).success(function(response){
       if (!cb){
         googleMaps.createMarkers(response);
+        LoaderService.hide();
       } else {
         cb(response);
       }
     }).error(function(error){
+      LoaderService.hide();
       navigator.notification.alert('There was an error: ' + error);
     });
   };
@@ -255,18 +288,12 @@ angular.module('sfSense', ['ionic'])
       var lng = pos.longitude;
 
       $scope.getCrimes(lat, lng, function(crimes){
+        
         if(crimes.length > 10){
           var pushNotification = window.plugins.pushNotification;
           window.plugin.notification.local.add({ message: 'WARNING!! You are entering a high crime area' });
         }
 
-        window.plugin.notification.local.add({
-          id: 1,
-          title: 'WARNING',
-          message: 'You are entering a high crime area.',
-          repeat: 1
-        });
-        
       });
     };
 
@@ -278,7 +305,7 @@ angular.module('sfSense', ['ionic'])
       desiredAccuracy: 1,
       stationaryRadius: 1,
       distanceFilter: 1,
-      debug: true // <-- enable this hear sounds for background-geolocation life-cycle.
+      // debug: true // <-- enable this hear sounds for background-geolocation life-cycle.
     });
 
     bgGeo.start();
