@@ -65,7 +65,7 @@ angular.module('sfSense', ['ionic'])
         // Open the pertinent info window
         newMarker.info.open(map, newMarker);
       });
-      markers[crime.id] = newMarker; // add it to the markers object
+      markers[crime.id] = newMarker; // Add it to the markers object
     }
   };
 
@@ -82,7 +82,7 @@ angular.module('sfSense', ['ionic'])
         mapTypeControl: false,
         streetViewControl: false,
         overviewMapControl: false,
-        //begin map options to fix pinch displaying info windows bug
+        // Begin map options to fix pinch displaying info windows bug
         maxZoom: 17,
         minZoom: 17,
         scrollwheel: false
@@ -106,11 +106,11 @@ angular.module('sfSense', ['ionic'])
     },
 
     clearMap: function() {
-      // first hide all the markers by setting map to null
+      // First hide all the markers by setting map to null
       for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
       }
-      // we no longer want access to the markers so remove them
+      // We no longer want access to the markers so remove them
       markers = {};
     },
 
@@ -120,7 +120,7 @@ angular.module('sfSense', ['ionic'])
     },
 
     getCenter: function() {
-      // returns latlng object with lat() and lng() methods
+      // Returns latlng object with lat() and lng() methods
       return map.getCenter();
     },
 
@@ -153,21 +153,20 @@ angular.module('sfSense', ['ionic'])
     },
 
     filterBy: function(filter){
-      // set filterOn
       filterOn = filter;
-      // the filter will match the type field on the markers
+      // The filter will match the type field on the markers
       for (var markerID in markers) {
         
         var marker = markers[markerID];
         var cat = marker.type;
 
-        // check if the filter is all, if so, show all markers
+        // Check if the filter is all, if so, show all markers
         if (filter === 'all') {
           marker.setMap(map);
-        } else { // a filter was specified
-          if (filter === cat) { // filter matches marker type
+        } else { // A filter was specified
+          if (filter === cat) {
             marker.setMap(map);
-          } else { // filter doesn't match marker type
+          } else {
             marker.setMap(null);
           }
         }
@@ -194,10 +193,8 @@ angular.module('sfSense', ['ionic'])
 
     // After map has been created, add listeners here
     googleMaps.addListener('dragend', function(){
-      // get the lng and lat and call getCrimes with them
+      // Get the lng and lat and call getCrimes with them
       var newCenter = googleMaps.getCenter();
-      // clear the map of current markers and infowindows
-      // googleMaps.clearMap();
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
   };
@@ -237,9 +234,8 @@ angular.module('sfSense', ['ionic'])
 
   $scope.searchCrime = function() {
     // $scope.mapSearch is a street address
-    // on success, calls getCrimes with the lat/lng
-
-    // if map search if undefined use current location. Placeholder is current location.
+    // On success, calls getCrimes with the lat/lng
+    // If map search if undefined use current location. Placeholder is current location.
     if(!$scope.mapSearch) {
       $scope.gpsSearchCrime();
     } else {
