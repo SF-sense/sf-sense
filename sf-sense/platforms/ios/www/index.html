@@ -28,25 +28,41 @@
 
     <ion-pane>
       <ion-header-bar class="bar bar-header bar-light">
-        <div class="bar bar-header item-input-inset">
-          <label class="item-input-wrapper">
-            <i class="icon ion-ios7-search placeholder-icon"></i>
-            <input type="search" placeholder="Enter Address" ng-model='mapSearch'>
-          </label>
-          <button class="button button-clear button-positive" ng-click='searchCrime()'>
-            Search
-          </button>
-        </div>        
+        <form ng-submit="searchCrime()">
+          <div class="bar bar-header item-input-inset">
+            <label class="item-input-wrapper">
+              <i class="icon ion-ios7-search placeholder-icon"></i>
+              
+              <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch'>
+              
+            </label>
+            
+            <input type="submit" value="Search" class="button button-clear button-positive" />
+          </div>
+        </form>
       </ion-header-bar>
 
-      <ion-content class="map-container">
+      <ion-content>
 
-        <button ng-click="gpsSearchCrime()" class="button button-block button-positive">Current Location</button>
+        <div id="map-canvas"></div>  
 
-        <div id="map-canvas"></div>
-
-        <div ng-repeat="filter in filters">
-          <button class="button button-energized button-block button-positive" ng-click="filterBy(filter);">{{filter}}</button>
+        <div class="tabs tabs-icon-top">
+          <a class="tab-item" ng-click="filterBy('theft');">
+            <i class="icon ion-home"></i>
+            Thefts
+          </a>
+          <a class="tab-item" ng-click="filterBy('assault');">
+            <i class="icon ion-home"></i>
+            Assaults
+          </a>
+          <a class="tab-item" ng-click="filterBy('other');">
+            <i class="icon ion-star"></i>
+            Other
+          </a>
+          <a class="tab-item" ng-click="filterBy();">
+            <i class="icon ion-gear-a"></i>
+            All
+          </a>
         </div>
 
       </ion-content>

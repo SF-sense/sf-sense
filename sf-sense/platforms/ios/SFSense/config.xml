@@ -34,6 +34,10 @@
     <feature name="BackgroundGeoLocation">
         <param name="ios-package" value="CDVBackgroundGeoLocation" />
     </feature>
+    <feature name="LocalNotification">
+        <param name="ios-package" onload="true" value="APPLocalNotification" />
+        <param name="onload" value="true" />
+    </feature>
     <name>SFSense</name>
     <description>
         An Ionic Framework and Cordova project.

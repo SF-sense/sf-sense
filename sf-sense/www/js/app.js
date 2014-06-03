@@ -255,9 +255,18 @@ angular.module('sfSense', ['ionic'])
       var lng = pos.longitude;
 
       $scope.getCrimes(lat, lng, function(crimes){
-        if(crimes.length > 2){
-          alert('WARNING!! You are entering a high crime area');
+        if(crimes.length > 10){
+          var pushNotification = window.plugins.pushNotification;
+          window.plugin.notification.local.add({ message: 'WARNING!! You are entering a high crime area' });
         }
+
+        window.plugin.notification.local.add({
+          id: 1,
+          title: 'WARNING',
+          message: 'You are entering a high crime area.',
+          repeat: 1
+        });
+        
       });
     };
 
@@ -266,9 +275,9 @@ angular.module('sfSense', ['ionic'])
     };
 
     bgGeo.configure(onSuccess, onError, {
-      desiredAccuracy: 10,
-      stationaryRadius: 15,
-      distanceFilter: 20,
+      desiredAccuracy: 1,
+      stationaryRadius: 1,
+      distanceFilter: 1,
       debug: true // <-- enable this hear sounds for background-geolocation life-cycle.
     });
 

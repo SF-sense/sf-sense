@@ -76,6 +76,13 @@ module.exports = [
         "clobbers": [
             "plugins.backgroundGeoLocation"
         ]
+    },
+    {
+        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification.js",
+        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification",
+        "clobbers": [
+            "plugin.notification.local"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -87,7 +94,8 @@ module.exports.metadata =
     "org.apache.cordova.geolocation": "0.3.8-dev",
     "org.apache.cordova.vibration": "0.3.9-dev",
     "org.apache.cordova.dialogs": "0.2.8-dev",
-    "org.transistorsoft.cordova.background-geolocation": "0.2.0"
+    "org.transistorsoft.cordova.background-geolocation": "0.2.0",
+    "de.appplant.cordova.plugin.local-notification": "0.7.4"
 }
 // BOTTOM OF METADATA
 });

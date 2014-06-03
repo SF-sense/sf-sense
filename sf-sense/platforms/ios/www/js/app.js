@@ -8,31 +8,8 @@ angular.module('sfSense', ['ionic'])
   // 4. create markers
   // 5. add markers to map  
   var map;
-  var markers = [];
-  var isViolent = {
-    'ASSAULT': true,
-    'NON-CRIMINAL': false,
-    'OTHER OFFENSES': false,
-    'ROBBERY': true,
-    'LARCENY/THEFT': false,
-    'VANDALISM': false,
-    'BURGLARY': false,
-    'VEHICLE THEFT': false,
-    'FRAUD': false,
-    'DRUNKENNESS': false,
-    'WARRANTS': false,
-    'TRESPASS': false,
-    'KIDNAPPING': true,
-    'SEX OFFENSES': true,
-    'WEAPON LAWS': true,
-    'DRUG/NARCOTIC': false,
-    'FORGERY/COUNTERFEITING': false,
-    'MISSING PERSON': false,
-    'LIQUOR LAWS': false,
-    'BAD CHECKS': false,
-    'RUNAWAY': false,
-    'EMBEZZLEMENT': false
-  };
+  var markers = {};
+  var filterOn = 'all';
 
   var iconPath = '../www/img/icons/';
 
@@ -46,23 +23,50 @@ angular.module('sfSense', ['ionic'])
   };
 
   var createMarker = function(crime) {
-    var latlng = new google.maps.LatLng(crime.latitude,crime.longitude);
 
-    var icon;
+    if (markers[crime.id] === undefined) { // If crime isn't displayed yet add it
+      var latlng = new google.maps.LatLng(crime.latitude,crime.longitude);
 
-    if(markerImg[crime.category]){
-      icon = iconPath + markerImg[crime.category];
-    } else {
-      icon = iconPath + markerImg.DEFAULT;
+      var icon;
+
+      if(markerImg[crime.category]){
+        icon = iconPath + markerImg[crime.category];
+      } else {
+        icon = iconPath + markerImg.DEFAULT;
+      }
+
+      var newMarker = new google.maps.Marker({
+        position: latlng,
+        animation: google.maps.Animation.DROP,
+        title: crime.category,
+        icon: icon,
+        id: crime.id,
+        category: crime.category,
+        date: crime.date,
+        time: crime.time,
+        description: crime.descript,
+        type: crime.type.toLowerCase()
+      });
+
+      // Check if the marker should be displayed or not
+      if (filterOn === 'all' || filterOn === crime.type) {
+        newMarker.setMap(map);
+      }
+      // Make a new InfoWindow and associate it to the marker
+      newMarker.info = new google.maps.InfoWindow({
+        content: '<div>' + newMarker.description + '</div>'
+      });
+      // Add the map listener here
+      google.maps.event.addListener(newMarker, 'mouseover', function(){
+        // Close all open crime info windows first
+        for (var crimeID in markers) {
+          markers[crimeID].info.close();
+        }
+        // Open the pertinent info window
+        newMarker.info.open(map, newMarker);
+      });
+      markers[crime.id] = newMarker; // Add it to the markers object
     }
-
-    markers.push (new google.maps.Marker({
-      position: latlng,
-      animation: google.maps.Animation.DROP,
-      title: crime.category,
-      icon: icon,
-      map: map
-    }));
   };
 
   return {
@@ -72,7 +76,16 @@ angular.module('sfSense', ['ionic'])
     createMap: function(lat, lng){
       var mapOptions = {
         center: new google.maps.LatLng(lat, lng),
-        zoom: 17
+        zoom: 17,
+        panControl: false,
+        zoomControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        overviewMapControl: false,
+        // Begin map options to fix pinch displaying info windows bug
+        maxZoom: 17,
+        minZoom: 17,
+        scrollwheel: false
       };
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -98,7 +111,7 @@ angular.module('sfSense', ['ionic'])
     },
 
     getCenter: function() {
-      // returns latlng object with lat() and lng() methods
+      // Returns latlng object with lat() and lng() methods
       return map.getCenter();
     },
 
@@ -131,22 +144,21 @@ angular.module('sfSense', ['ionic'])
     },
 
     filterBy: function(filter){
-      for (var i = 0; i < markers.length; i++){
-        var cat = markers[i].title;
-        if (filter === 'violent') {
-          // check category against isViolent, if isViolent is false, hide it
-          if(!isViolent[cat]) { 
-            markers[i].setMap(null);
+      filterOn = filter;
+      // The filter will match the type field on the markers
+      for (var markerID in markers) {
+        
+        var marker = markers[markerID];
+        var cat = marker.type;
+
+        // Check if the filter is all, if so, show all markers
+        if (filter === 'all') {
+          marker.setMap(map);
+        } else { // A filter was specified
+          if (filter === cat) {
+            marker.setMap(map);
           } else {
-            // it shouldn't be filtered out
-            markers[i].setMap(map);
-          }
-        } else {
-          // filter is non-violent, check for the opposite
-          if(isViolent[cat]) { 
-            markers[i].setMap(null);
-          } else {
-            markers[i].setMap(map);
+            marker.setMap(null);
           }
         }
       }
@@ -156,7 +168,12 @@ angular.module('sfSense', ['ionic'])
 
 .controller('MapCtrl', function($scope, $http, googleMaps){
 
-  $scope.filters = ['violent', 'non-violent'];
+  $scope.filters = ['other', 'assault', 'theft'];
+
+  var hideKeyboard = function() {
+    document.activeElement.blur();
+    $("input").blur();
+  };  
 
   var init = function() {
     // SF center lat and lng
@@ -167,10 +184,12 @@ angular.module('sfSense', ['ionic'])
 
     // After map has been created, add listeners here
     googleMaps.addListener('dragend', function(){
-      // get the lng and lat and call getCrimes with them
+      // Get the lng and lat and call getCrimes with them
       var newCenter = googleMaps.getCenter();
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
+
+    $scope.trackLocation();
   };
 
   $scope.gpsSearchCrime = function(){
@@ -188,19 +207,23 @@ angular.module('sfSense', ['ionic'])
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   };
 
-  $scope.getCrimes = function(lat, lng){
-
-    alert('LAT: ' + lat);
-    alert('LNG: ' + lng);
+  $scope.getCrimes = function(lat, lng, cb){
 
     var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat + "&distance=0.3";
 
     $http({
+      headers: {
+      "Authorization" : "Basic " + btoa("sf-sense:858F8CDDB1F324A762DBEFDC77844")
+      },
       url: url,
       dataType: 'json',
       method: "GET"
     }).success(function(response){
-      googleMaps.createMarkers(response);
+      if (!cb){
+        googleMaps.createMarkers(response);
+      } else {
+        cb(response);
+      }
     }).error(function(error){
       navigator.notification.alert('There was an error: ' + error);
     });
@@ -208,12 +231,57 @@ angular.module('sfSense', ['ionic'])
 
   $scope.searchCrime = function() {
     // $scope.mapSearch is a street address
-    // on success, calls getCrimes with the lat/lng
-    googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
+    // On success, calls getCrimes with the lat/lng
+    // If map search if undefined use current location. Placeholder is current location.
+    if(!$scope.mapSearch) {
+      $scope.gpsSearchCrime();
+    } else {
+      googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
+    }
+
+    hideKeyboard();
   };
 
   $scope.filterBy = function (filterArg) {
+    filterArg = filterArg || 'all';
     googleMaps.filterBy(filterArg);
+  };
+
+  $scope.trackLocation = function() {
+    var bgGeo = window.plugins.backgroundGeoLocation;
+
+    var onSuccess = function(pos) {
+      var lat = pos.latitude;
+      var lng = pos.longitude;
+
+      $scope.getCrimes(lat, lng, function(crimes){
+        if(crimes.length > 10){
+          var pushNotification = window.plugins.pushNotification;
+          window.plugin.notification.local.add({ message: 'WARNING!! You are entering a high crime area' });
+        }
+
+        window.plugin.notification.local.add({
+          id: 1,
+          title: 'WARNING',
+          message: 'You are entering a high crime area.',
+          repeat: 1
+        });
+        
+      });
+    };
+
+    var onError = function(error) {
+      navigator.notification.alert('Code: ' + error.code + '\n' + 'Message:' + error.message);
+    };
+
+    bgGeo.configure(onSuccess, onError, {
+      desiredAccuracy: 1,
+      stationaryRadius: 1,
+      distanceFilter: 1,
+      debug: true // <-- enable this hear sounds for background-geolocation life-cycle.
+    });
+
+    bgGeo.start();
   };
 
   init();

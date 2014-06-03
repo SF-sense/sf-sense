@@ -8,26 +8,63 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above-->
     <link href="css/ionic.app.css" rel="stylesheet">
-    -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+    
+    <!-- google maps javascript -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXtYe8zTYUThUoB7P3LPuB-qeKpyLkPqs&sensor=true"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
   </head>
-  <body ng-app="starter">
+
+  <body ng-app="sfSense" ng-controller="MapCtrl">
 
     <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+      <ion-header-bar class="bar bar-header bar-light">
+        <form ng-submit="searchCrime()">
+          <div class="bar bar-header item-input-inset">
+            <label class="item-input-wrapper">
+              <i class="icon ion-ios7-search placeholder-icon"></i>
+              
+              <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch'>
+              
+            </label>
+            
+            <input type="submit" value="Search" class="button button-clear button-positive" />
+          </div>
+        </form>
       </ion-header-bar>
+
       <ion-content>
+
+        <div id="map-canvas"></div>  
+
+        <div class="tabs tabs-icon-top">
+          <a class="tab-item" ng-click="filterBy('theft');">
+            <i class="icon ion-home"></i>
+            Thefts
+          </a>
+          <a class="tab-item" ng-click="filterBy('assault');">
+            <i class="icon ion-home"></i>
+            Assaults
+          </a>
+          <a class="tab-item" ng-click="filterBy('other');">
+            <i class="icon ion-star"></i>
+            Other
+          </a>
+          <a class="tab-item" ng-click="filterBy();">
+            <i class="icon ion-gear-a"></i>
+            All
+          </a>
+        </div>
+
       </ion-content>
     </ion-pane>
   </body>

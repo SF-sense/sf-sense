@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		19E5745AF8CC49198107A00F /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0562DB6053FB4A46B984F3D8 /* CDVDevice.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
@@ -45,6 +46,7 @@
 		8BB4C04FD9974F688F779194 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3D1087C608DB4F31B34BF109 /* CDVNotification.bundle */; };
 		9BB6A44EBC8B4007AF31E6B5 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E7DCB3C265B4AFEB246B1E9 /* CDVLogger.m */; };
 		AB597F651A88470A8F481B69 /* CDVVibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 150A33BF31EE465EA4741718 /* CDVVibration.m */; };
+		B483C3B629ED48EEB670AA74 /* APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 777F2A6BA48B44AE927E97C4 /* APPLocalNotification.m */; };
 		CA9F6E3219A54739A4C33E92 /* IonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D28E2329974B12BAC8B280 /* IonicKeyboard.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		E165E5A1965544518A9CCF82 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFB873C6C3D480FA73F4D9C /* CDVLocation.m */; };
@@ -101,9 +103,13 @@
 		40D28E2329974B12BAC8B280 /* IonicKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IonicKeyboard.m; path = com.ionic.keyboard/IonicKeyboard.m; sourceTree = "<group>"; };
 		4304EDD6B3264D119DD3471F /* AudioToolbox.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		4589816E79EF4C539A3E7E59 /* CDVVibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVVibration.h; path = org.apache.cordova.vibration/CDVVibration.h; sourceTree = "<group>"; };
+		4E8A2854B29D4B128B1D03A4 /* APPLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APPLocalNotification.h; path = "de.appplant.cordova.plugin.local-notification/APPLocalNotification.h"; sourceTree = "<group>"; };
 		5AEE5B34173C68D80009041E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		5B83E8048F8E421F81AE7B98 /* PushPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushPlugin.h; path = com.phonegap.plugins.PushPlugin/PushPlugin.h; sourceTree = "<group>"; };
 		5DB76814E36B419891B77062 /* AVFoundation.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		67DA06112D134E4D8B8DF172 /* PushPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushPlugin.m; path = com.phonegap.plugins.PushPlugin/PushPlugin.m; sourceTree = "<group>"; };
+		777F2A6BA48B44AE927E97C4 /* APPLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APPLocalNotification.m; path = "de.appplant.cordova.plugin.local-notification/APPLocalNotification.m"; sourceTree = "<group>"; };
 		7E7966D41810823500FA85AD /* icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40.png"; sourceTree = "<group>"; };
 		7E7966D51810823500FA85AD /* icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40@2x.png"; sourceTree = "<group>"; };
 		7E7966D61810823500FA85AD /* icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-50.png"; sourceTree = "<group>"; };
@@ -273,6 +279,10 @@
 				C8C9EA2901B74C43955A4ADE /* CDVNotification.h */,
 				B3CB77913ADD4FA3BEDBC512 /* CDVBackgroundGeoLocation.m */,
 				9F49CEA818F346F4B510FFB0 /* CDVBackgroundGeoLocation.h */,
+				67DA06112D134E4D8B8DF172 /* PushPlugin.m */,
+				5B83E8048F8E421F81AE7B98 /* PushPlugin.h */,
+				777F2A6BA48B44AE927E97C4 /* APPLocalNotification.m */,
+				4E8A2854B29D4B128B1D03A4 /* APPLocalNotification.h */,
 			);
 			name = Plugins;
 			path = SFSense/Plugins;
@@ -367,6 +377,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 510;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = EDGUYV5K4Y;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SFSense" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -476,6 +491,7 @@
 				AB597F651A88470A8F481B69 /* CDVVibration.m in Sources */,
 				6FF081B86B6E434CB8950B24 /* CDVNotification.m in Sources */,
 				53D004DD72C8467B96454253 /* CDVBackgroundGeoLocation.m in Sources */,
+				B483C3B629ED48EEB670AA74 /* APPLocalNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +546,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -563,6 +580,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SFSense/SFSense-Prefix.pch";
