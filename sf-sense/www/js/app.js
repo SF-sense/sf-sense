@@ -15,11 +15,9 @@ angular.module('sfSense', ['ionic'])
 
   // TODO: add marker img for each category
   var markerImg = {
-    'BURGLARY': 'robbery.png',
-    'LARCENY/THEFT': 'theft.png',
-    'ASSAULT': 'robbery.png',
-    'MISSING PERSON': 'missing.png',
-    'DEFAULT': 'blast.png'
+    'theft': 'theft.png',
+    'assault': 'robbery.png',
+    'other': 'blast.png'
   };
 
   var createMarker = function(crime) {
@@ -29,10 +27,10 @@ angular.module('sfSense', ['ionic'])
 
       var icon;
 
-      if(markerImg[crime.category]){
-        icon = iconPath + markerImg[crime.category];
+      if(markerImg[crime.type]){
+        icon = iconPath + markerImg[crime.type];
       } else {
-        icon = iconPath + markerImg.DEFAULT;
+        icon = iconPath + markerImg.other;
       }
 
       var newMarker = new google.maps.Marker({
