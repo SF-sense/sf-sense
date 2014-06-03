@@ -174,12 +174,14 @@ angular.module('sfSense', ['ionic'])
   };  
 
   var init = function() {
+    alert('loading screen');
     // SF center lat and lng
     var lat = 37.783522;
     var lng = -122.408964;
 
     googleMaps.createMap(lat, lng);
-
+    $scope.getCrimes(lat, lng);
+    
     // After map has been created, add listeners here
     googleMaps.addListener('dragend', function(){
       // Get the lng and lat and call getCrimes with them
