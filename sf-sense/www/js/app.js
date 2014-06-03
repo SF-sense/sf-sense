@@ -92,7 +92,12 @@ angular.module('sfSense', ['ionic'])
     createMap: function(lat, lng){
       var mapOptions = {
         center: new google.maps.LatLng(lat, lng),
-        zoom: 17
+        zoom: 17,
+        panControl: false,
+        zoomControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        overviewMapControl: false
       };
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
