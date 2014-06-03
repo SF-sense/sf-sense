@@ -42,26 +42,9 @@
         </form>
       </ion-header-bar>
 
-      <ion-content class="map-container">
-<!-- 
-        <button class="button button-block button-positive" ng-click='trackLocation()'>Activate background tracking</button> -->
+      <ion-content>
 
-        <div id="map-canvas"></div>
-
-        <div class="list">
-          <label class="item item-input item-select">
-            <div class="input-label">Crime Filter</div>
-            <select ng-change="filterBy(filter)" ng-model="filter" ng-options="filter for filter in filters">
-              <option value="">All</option>
-            </select>
-          </label>
-        </div>
-
-<!--         <button class="button button-energized button-block button-positive" ng-click="filterBy('all');">All</button>
-
-        <div ng-repeat="filter in filters">
-          <button class="button button-energized button-block button-positive" ng-click="filterBy(filter);">{{filter}} crimes nearby</button>
-        </div> -->
+        <div id="map-canvas"></div>  
 
         <div class="tabs tabs-icon-top">
           <a class="tab-item" ng-click="filterBy('theft');">

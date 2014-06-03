@@ -6442,9 +6442,12 @@ a.button {
   transition: none !important; }
 
 #map-canvas {
-  margin: 20px 10px;
-  height: 300px;
+  margin: 10px 10px;
+  height: 430px;
   width: 300px; }
+
+.scroll {
+  height: 98%; }
 
 ::-webkit-input-placeholder {
   color: #0066FF !important; }

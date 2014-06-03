@@ -207,7 +207,7 @@ angular.module('sfSense', ['ionic'])
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   };
 
-  $scope.getCrimes = function(lat, lng){
+  $scope.getCrimes = function(lat, lng, cb){
 
     var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat + "&distance=0.3";
 
@@ -219,7 +219,11 @@ angular.module('sfSense', ['ionic'])
       dataType: 'json',
       method: "GET"
     }).success(function(response){
-      googleMaps.createMarkers(response);
+      if (!cb){
+        googleMaps.createMarkers(response);
+      } else {
+        cb(response);
+      }
     }).error(function(error){
       navigator.notification.alert('There was an error: ' + error);
     });
@@ -239,7 +243,7 @@ angular.module('sfSense', ['ionic'])
   };
 
   $scope.filterBy = function (filterArg) {
-    if (!filterArg) filterArg = 'all';
+    filterArg = filterArg || 'all';
     googleMaps.filterBy(filterArg);
   };
 
@@ -249,8 +253,12 @@ angular.module('sfSense', ['ionic'])
     var onSuccess = function(pos) {
       var lat = pos.latitude;
       var lng = pos.longitude;
-      alert(lat);
-      // googleMaps.searchLoc(lat, lng, $scope.getCrimes);
+
+      $scope.getCrimes(lat, lng, function(crimes){
+        if(crimes.length > 2){
+          alert('WARNING!! You are entering a high crime area');
+        }
+      });
     };
 
     var onError = function(error) {

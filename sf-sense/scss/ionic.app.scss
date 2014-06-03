@@ -22,9 +22,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "www/lib/ionic/scss/ionic";
 
 #map-canvas { 
-  margin:20px 10px;
-  height: 300px; 
+  margin:10px 10px;
+  height: 430px; 
   width: 300px; 
+}
+
+.scroll {
+  height: 98%;
 }
 
 // added margin as the map was going under the top bar on IOS emulator
