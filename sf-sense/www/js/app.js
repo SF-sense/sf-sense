@@ -10,30 +10,6 @@ angular.module('sfSense', ['ionic'])
   var map;
   var markers = {};
   var filterOn = 'all';
-  var isViolent = {
-    'ASSAULT': true,
-    'NON-CRIMINAL': false,
-    'OTHER OFFENSES': false,
-    'ROBBERY': true,
-    'LARCENY/THEFT': false,
-    'VANDALISM': false,
-    'BURGLARY': false,
-    'VEHICLE THEFT': false,
-    'FRAUD': false,
-    'DRUNKENNESS': false,
-    'WARRANTS': false,
-    'TRESPASS': false,
-    'KIDNAPPING': true,
-    'SEX OFFENSES': true,
-    'WEAPON LAWS': true,
-    'DRUG/NARCOTIC': false,
-    'FORGERY/COUNTERFEITING': false,
-    'MISSING PERSON': false,
-    'LIQUOR LAWS': false,
-    'BAD CHECKS': false,
-    'RUNAWAY': false,
-    'EMBEZZLEMENT': false
-  };
 
   var iconPath = '../www/img/icons/';
 
