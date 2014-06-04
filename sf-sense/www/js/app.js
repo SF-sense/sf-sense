@@ -165,6 +165,8 @@ angular.module('sfSense', ['ionic'])
 })
 
 .controller('MapCtrl', function($scope, $http, googleMaps){
+  // add an event listener to update the map location on resume
+  document.addEventListener("resume", function(){$scope.resume();}, false);
 
   $scope.filters = ['other', 'assault', 'theft'];
 
@@ -181,7 +183,8 @@ angular.module('sfSense', ['ionic'])
 
     googleMaps.createMap(lat, lng);
     $scope.getCrimes(lat, lng);
-    
+
+
     // After map has been created, add listeners here
     googleMaps.addListener('dragend', function(){
       // Get the lng and lat and call getCrimes with them
@@ -192,7 +195,11 @@ angular.module('sfSense', ['ionic'])
     // $scope.trackLocation();
   };
 
-  $scope.gpsSearchCrime = function(){
+  $scope.resume = function() {
+    $scope.gpsSearchCrime();
+  };
+
+  $scope.gpsSearchCrime = function() {
 
     var onSuccess = function(pos){
       var lat = pos.coords.latitude;
