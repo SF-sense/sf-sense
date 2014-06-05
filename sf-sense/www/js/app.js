@@ -51,6 +51,7 @@ angular.module('sfSense', ['ionic'])
         newMarker.setMap(map);
       }
       // Make a new InfoWindow and associate it to the marker
+      // *** note infobox can be used as well for more styling ***
       newMarker.info = new google.maps.InfoWindow({
         content: '<div>' + newMarker.description + '</div>',
         maxWidth: 100
