@@ -6454,3 +6454,19 @@ a.button {
 
 form > .item-input-inset {
   position: absolute; }
+
+.bar {
+  background-color: #665680; }
+  .bar img {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px; }
+  .bar a {
+    cursor: pointer; }
+
+.icon img {
+  margin-top: 3px; }
+.icon .other-img {
+  margin-top: 7px; }
+.icon .assult-img {
+  margin-top: 5px; }

@@ -15,13 +15,16 @@ $royal:                           #8a6de9 !default;
 $dark:                            #444 !default;
 */
 
+$primary: #665680;
+$secondary: #EADCFF;
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-#map-canvas { 
+#map-canvas {
   margin:10px 10px;
   height: 430px; 
   width: 300px; 
@@ -43,3 +46,28 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 form > .item-input-inset {
   position: absolute;
 }
+
+.bar {
+  background-color: $primary;
+  img {
+    width:25px;
+    height:25px;
+    margin-right:10px;
+  }
+  a {
+    cursor: pointer;
+  }
+}
+
+.icon {
+  img {
+    margin-top:3px;
+  }
+  .other-img {
+    margin-top:7px;
+  }
+  .assult-img {
+    margin-top:5px;
+  }
+}
+

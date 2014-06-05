@@ -28,18 +28,22 @@
 
     <ion-pane>
       <ion-header-bar class="bar bar-header bar-light">
-        <form ng-submit="searchCrime()">
+        <form ng-submit="searchCrime()">  
           <div class="bar bar-header item-input-inset">
+            
+            <!-- <img src="img/icons/logo.png" /> -->
+
             <label class="item-input-wrapper">
+
               <i class="icon ion-ios7-search placeholder-icon"></i>
-              
-              <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch'>
-              
+                  
+              <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch' ng-keyup="displayClear();">
+                   
             </label>
             
-            <input type="submit" value="Search" class="button button-clear button-positive" />
+            <button type="button" class="button button-clear button-light" ng-hide='searchClear' ng-click="clearSearch();">Clear</button>
           </div>
-        </form>
+        </form> 
       </ion-header-bar>
 
       <ion-content>
@@ -47,21 +51,21 @@
         <div id="map-canvas"></div>  
 
         <div class="tabs tabs-icon-top">
+          <a class="tab-item" ng-click="filterBy();">
+            <i class="icon"><img src="img/icons/all.png" /></i>
+            All
+          </a>        
           <a class="tab-item" ng-click="filterBy('theft');">
-            <i class="icon ion-home"></i>
+            <i class="icon"><img src="img/icons/theft-icon.png" /></i>
             Thefts
           </a>
           <a class="tab-item" ng-click="filterBy('assault');">
-            <i class="icon ion-home"></i>
+            <i class="icon"><img class="assult-img" src="img/icons/assult-icon.png" /></i>
             Assaults
           </a>
           <a class="tab-item" ng-click="filterBy('other');">
-            <i class="icon ion-star"></i>
+            <i class="icon"><img class="other-img" src="img/icons/other.png" /></i>
             Other
-          </a>
-          <a class="tab-item" ng-click="filterBy();">
-            <i class="icon ion-gear-a"></i>
-            All
           </a>
         </div>
 
