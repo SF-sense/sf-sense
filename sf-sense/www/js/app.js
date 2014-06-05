@@ -221,7 +221,7 @@ angular.module('sfSense', ['ionic'])
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
 
-    $scope.trackLocation(pushAlerts);
+    $scope.trackLocation(pushAlert);
   };
 
   $scope.resume = function() {
@@ -260,6 +260,7 @@ angular.module('sfSense', ['ionic'])
       if (!cb){
         googleMaps.createMarkers(response);
         loaderService.hide();
+        pushAlert(response);
       } else {
         cb(response);
       }
@@ -287,37 +288,31 @@ angular.module('sfSense', ['ionic'])
     googleMaps.filterBy(filterArg);
   };
 
-  var pushAlerts = function(incidents) {
+  var pushAlert = function(incidents) {
 
-    var Incident = function() {
-      this.occ = 0;
-      this.msg;
-    }
+    var alertMessage = function(incidentsOcc) {
+      if (incidentsOcc.assault > 1 && incidentsOcc.theft > 2) {
+        return "Warning! You are entering an area where assaults and thefts have been reported";
+      } else if (incidentsOcc.assault > 1) {
+        return "Warning! You are entering an area where assaults have been reported";
+      } else if (incidentsOcc.theft > 2) {
+        return "Warning! You are entering an area where thefts have been reported";
+      }
+    };
 
-    var incidentInfos = {
-      assault : new Incident(),
-      theft : new Incident(),
-      other : new Incident()
+    var incidentsOcc = {
+      assault : 0,
+      theft : 0,
+      other : 0
     };
 
     for (var i = 0; i < incidents.length; i++) {
-      var incident = incidents[i];
-      incidentInfos[incident.type].occ++;
-      if (incident.type === 'assault' && incidentInfos.assault.occ > 1) {
-        incidentInfos.assault.msg = 'a few assaults occured in this area';
-      } else if (incident.type === 'theft' && incidentInfos.theft.occ > 1) {
-        incidentInfos.theft.msg = 'a few thefts occured in this area';
-      } else if (incident.type === 'other' && incidentInfos.other.occ > 10) {
-        incidentInfos.other.msg = 'a high number of incidents occured in this area';
-      }
+      incidentsOcc[incidents[i].type]++;
     }
 
-    for (incidentType in incidentInfos) {
-      if (incidentInfos[incidentType].msg) {
-        window.plugin.notification.local.add({ message: incident.msg });
-      }
+    if (incidentsOcc.assault > 1 || incidentsOcc.theft > 2) {
+      window.plugin.notification.local.add({ message: alertMessage(incidentsOcc) });
     }
-
   };
 
   $scope.trackLocation = function(onSuccessCallback) {
