@@ -204,7 +204,7 @@ angular.module('sfSense', ['ionic'])
   var hideKeyboard = function() {
     document.activeElement.blur();
     $("input").blur();
-  };  
+  };
 
   var init = function() {
     // SF center lat and lng
@@ -214,7 +214,6 @@ angular.module('sfSense', ['ionic'])
     googleMaps.createMap(lat, lng);
     $scope.getCrimes(lat, lng);
 
-
     // After map has been created, add listeners here
     googleMaps.addListener('dragend', function(){
       // Get the lng and lat and call getCrimes with them
@@ -222,7 +221,7 @@ angular.module('sfSense', ['ionic'])
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
 
-    //$scope.trackLocation();
+    // $scope.trackLocation();
   };
 
   $scope.resume = function() {
@@ -280,7 +279,7 @@ angular.module('sfSense', ['ionic'])
       googleMaps.searchLocByAddress($scope.mapSearch, $scope.getCrimes);
     }
 
-    hideKeyboard();
+    searchHide();
   };
 
   $scope.filterBy = function (filterArg) {
@@ -319,19 +318,21 @@ angular.module('sfSense', ['ionic'])
     bgGeo.start();
   };
 
-  $scope.displayClear = function(event){
-    if($scope.mapSearch.length > 0){
-      $scope.searchClear = false;
-    } else {
-      $scope.searchClear = true;
-    }
+  $scope.onFocusSearch = function(){
+    $scope.searchClear = false;
   };
 
   $scope.clearSearch = function(){
     $scope.mapSearch = '';
+  };
+
+  var searchHide = function(){
     $scope.searchClear = true;
+  };
+
+  $scope.cancelSearch = function(){
+    searchHide();
     hideKeyboard();
-    document.activeElement.blur();
   };
 
   init();

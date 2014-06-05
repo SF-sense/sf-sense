@@ -6444,7 +6444,8 @@ a.button {
 #map-canvas {
   margin: 10px 10px;
   height: 430px;
-  width: 300px; }
+  width: 300px;
+  z-index: 98; }
 
 .scroll {
   height: 98%; }
@@ -6456,7 +6457,8 @@ form > .item-input-inset {
   position: absolute; }
 
 .bar {
-  background-color: #665680; }
+  background-color: #665680;
+  border-color: #665680; }
   .bar img {
     width: 25px;
     height: 25px;
@@ -6464,9 +6466,34 @@ form > .item-input-inset {
   .bar a {
     cursor: pointer; }
 
+.tabs {
+  z-index: 100; }
+
 .icon img {
   margin-top: 3px; }
 .icon .other-img {
   margin-top: 7px; }
 .icon .assult-img {
   margin-top: 5px; }
+
+.top-bar-search-buttons {
+  position: absolute;
+  top: 63px;
+  z-index: 99;
+  height: 50px;
+  width: 100%;
+  background-color: #665680;
+  -webkit-box-shadow: 0 2px 5px 0px #272727;
+  -moz-box-shadow: 0 2px 5px 0px #272727;
+  box-shadow: 0 2px 5px 0px #272727; }
+
+.button-clear-search {
+  float: left;
+  margin-left: 10px; }
+
+.button-cancel {
+  float: right;
+  margin-right: 10px; }
+
+.button-search {
+  margin-left: 65px; }

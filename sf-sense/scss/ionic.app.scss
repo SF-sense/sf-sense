@@ -17,6 +17,7 @@ $dark:                            #444 !default;
 
 $primary: #665680;
 $secondary: #EADCFF;
+$shadow: #272727;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
@@ -24,10 +25,23 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $color;
+    -moz-box-shadow:inset $top $left $blur $color;
+    box-shadow:inset $top $left $blur $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+
 #map-canvas {
   margin:10px 10px;
-  height: 430px; 
-  width: 300px; 
+  height: 430px;
+  width: 300px;
+  z-index: 98;
 }
 
 .scroll {
@@ -49,6 +63,7 @@ form > .item-input-inset {
 
 .bar {
   background-color: $primary;
+  border-color: $primary;
   img {
     width:25px;
     height:25px;
@@ -57,6 +72,10 @@ form > .item-input-inset {
   a {
     cursor: pointer;
   }
+}
+
+.tabs {
+  z-index: 100;
 }
 
 .icon {
@@ -71,3 +90,29 @@ form > .item-input-inset {
   }
 }
 
+.top-bar-search-buttons {
+  position: absolute;
+  top: 63px;
+  z-index: 99;
+  height: 50px;
+  width: 100%;
+  background-color: $primary;
+
+  -webkit-box-shadow: 0 2px 5px 0px $shadow;
+     -moz-box-shadow: 0 2px 5px 0px $shadow;
+          box-shadow: 0 2px 5px 0px $shadow;  
+}
+
+.button-clear-search {
+  float: left;
+  margin-left: 10px;
+}
+
+.button-cancel {
+  float: right;
+  margin-right: 10px;
+}
+
+.button-search {
+  margin-left: 65px;
+}
