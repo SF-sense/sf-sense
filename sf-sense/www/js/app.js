@@ -328,7 +328,6 @@ angular.module('sfSense', ['ionic'])
       var lng = pos.longitude;
 
       $scope.getCrimes(lat, lng, function(crimes){
-
         onSuccessCallback(crimes);
       });
     };
@@ -357,6 +356,7 @@ angular.module('sfSense', ['ionic'])
 
   var searchHide = function(){
     $scope.searchClear = true;
+    hideKeyboard();
   };
 
   $scope.cancelSearch = function(){
