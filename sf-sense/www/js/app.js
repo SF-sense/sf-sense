@@ -82,9 +82,6 @@ angular.module('sfSense', ['ionic'])
         mapTypeControl: false,
         streetViewControl: false,
         overviewMapControl: false,
-        // Begin map options to fix pinch displaying info windows bug
-        maxZoom: 17,
-        minZoom: 17,
         scrollwheel: false
       };
 
