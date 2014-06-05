@@ -52,7 +52,8 @@ angular.module('sfSense', ['ionic'])
       }
       // Make a new InfoWindow and associate it to the marker
       newMarker.info = new google.maps.InfoWindow({
-        content: '<div>' + newMarker.description + '</div>'
+        content: '<div>' + newMarker.description + '</div>',
+        maxWidth: 100
       });
       // Add the map listener here
       google.maps.event.addListener(newMarker, 'mouseover', function(){
@@ -323,7 +324,6 @@ angular.module('sfSense', ['ionic'])
       var lng = pos.longitude;
 
       $scope.getCrimes(lat, lng, function(crimes){
-
         onSuccessCallback(crimes);
       });
     };
@@ -352,6 +352,7 @@ angular.module('sfSense', ['ionic'])
 
   var searchHide = function(){
     $scope.searchClear = true;
+    hideKeyboard();
   };
 
   $scope.cancelSearch = function(){
