@@ -11,13 +11,13 @@ angular.module('sfSense', ['ionic'])
   var markers = {};
   var filterOn = 'all';
 
-  var iconPath = '../www/img/icons/';
+  var iconPath = '../www/img/icons/markers/';
 
   // TODO: add marker img for each category
   var markerImg = {
     'theft': 'theft.png',
-    'assault': 'robbery.png',
-    'other': 'blast.png'
+    'assault': 'assult.png',
+    'other': 'other.png'
   };
 
   var createMarker = function(crime) {
@@ -207,7 +207,6 @@ angular.module('sfSense', ['ionic'])
   };  
 
   var init = function() {
-    alert('loading screen');
     // SF center lat and lng
     var lat = 37.783522;
     var lng = -122.408964;
