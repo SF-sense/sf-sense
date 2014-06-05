@@ -1,4 +1,5 @@
 **SF-Sense**
+------------
 
 *About*
 -----
@@ -26,8 +27,8 @@ Once ionic has been installed run the commands below to install application depe
 
 Authors
 -------
-Matthew Olde
-Romain Lavoix
+Matthew Olde,
+Romain Lavoix,
 Richard Peng
 
 License
