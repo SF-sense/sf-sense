@@ -166,10 +166,10 @@ angular.module('sfSense', ['ionic'])
   };
 })
 
-.factory('LoaderService', function($rootScope, $ionicLoading) {
+.factory('loaderService', function($rootScope, $ionicLoading) {
   return {
     show : function() {
-      $rootScope.loading = $ionicLoading.show({
+      $ionicLoading.show({
 
         // The text to display in the loading indicator
         content: '<i class="icon ion-looping"></i> Loading',
@@ -190,14 +190,15 @@ angular.module('sfSense', ['ionic'])
     },
 
     hide : function(){
-      $rootScope.loading.hide();
+      $ionicLoading.hide();
     }
   }
 })
 
-.controller('MapCtrl', function($scope, $http, googleMaps, LoaderService){
+.controller('MapCtrl', function($scope, $http, googleMaps, loaderService){
 
   $scope.filters = ['other', 'assault', 'theft'];
+  $scope.searchClear = true;
 
   var hideKeyboard = function() {
     document.activeElement.blur();
@@ -218,7 +219,7 @@ angular.module('sfSense', ['ionic'])
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
 
-    $scope.trackLocation();
+    //$scope.trackLocation();
   };
 
   $scope.gpsSearchCrime = function(){
@@ -238,7 +239,7 @@ angular.module('sfSense', ['ionic'])
 
   $scope.getCrimes = function(lat, lng, cb){
 
-    LoaderService.show();
+    loaderService.show();
 
     var url = "http://sf-sense-server.herokuapp.com/near?longitude=" + lng + "&latitude="+ lat + "&distance=0.3";
 
@@ -252,12 +253,12 @@ angular.module('sfSense', ['ionic'])
     }).success(function(response){
       if (!cb){
         googleMaps.createMarkers(response);
-        LoaderService.hide();
+        loaderService.hide();
       } else {
         cb(response);
       }
     }).error(function(error){
-      LoaderService.hide();
+      loaderService.hide();
       navigator.notification.alert('There was an error: ' + error);
     });
   };
@@ -288,7 +289,7 @@ angular.module('sfSense', ['ionic'])
       var lng = pos.longitude;
 
       $scope.getCrimes(lat, lng, function(crimes){
-        
+
         if(crimes.length > 10){
           var pushNotification = window.plugins.pushNotification;
           window.plugin.notification.local.add({ message: 'WARNING!! You are entering a high crime area' });
@@ -309,6 +310,21 @@ angular.module('sfSense', ['ionic'])
     });
 
     bgGeo.start();
+  };
+
+  $scope.displayClear = function(event){
+    if($scope.mapSearch.length > 0){
+      $scope.searchClear = false;
+    } else {
+      $scope.searchClear = true;
+    }
+  };
+
+  $scope.clearSearch = function(){
+    $scope.mapSearch = '';
+    $scope.searchClear = true;
+    hideKeyboard();
+    document.activeElement.blur();
   };
 
   init();
