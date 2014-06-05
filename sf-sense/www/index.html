@@ -30,21 +30,28 @@
       <ion-header-bar class="bar bar-header bar-light">
         <form ng-submit="searchCrime()">  
           <div class="bar bar-header item-input-inset">
-            
-            <!-- <img src="img/icons/logo.png" /> -->
 
             <label class="item-input-wrapper">
 
               <i class="icon ion-ios7-search placeholder-icon"></i>
                   
-              <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch' ng-keyup="displayClear();">
+              <input class="searchLocation" type="search" placeholder="Current Location" ng-model='mapSearch' ng-focus="onFocusSearch();">
                    
             </label>
             
-            <button type="button" class="button button-clear button-light" ng-hide='searchClear' ng-click="clearSearch();">Clear</button>
-          </div>
-        </form> 
+          </div>          
+        </form>
       </ion-header-bar>
+
+      <div class="top-bar-search-buttons" ng-hide="searchClear">
+
+        <button type="button" class="button button-clear button-clear-search button-light" ng-click="clearSearch();">Clear</button>
+
+        <button type="button" class="button button-clear button-search button-light" ng-click="searchCrime()">Search</button>
+
+        <button type="button" class="button button-clear button-cancel button-light" ng-click="cancelSearch();">Cancel</button>
+
+      </div>
 
       <ion-content>
 
