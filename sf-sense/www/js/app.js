@@ -261,7 +261,6 @@ angular.module('sfSense', ['ionic'])
       if (!cb){
         googleMaps.createMarkers(response);
         loaderService.hide();
-        pushAlert(response);
       } else {
         cb(response);
       }
