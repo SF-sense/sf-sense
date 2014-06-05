@@ -221,7 +221,7 @@ angular.module('sfSense', ['ionic'])
       $scope.getCrimes(newCenter.lat(), newCenter.lng());
     });
 
-    // $scope.trackLocation();
+    $scope.trackLocation(pushAlerts);
   };
 
   $scope.resume = function() {
@@ -287,7 +287,40 @@ angular.module('sfSense', ['ionic'])
     googleMaps.filterBy(filterArg);
   };
 
-  $scope.trackLocation = function() {
+  var pushAlerts = function(incidents) {
+
+    var Incident = function() {
+      this.occ = 0;
+      this.msg;
+    }
+
+    var incidentInfos = {
+      assault : new Incident(),
+      theft : new Incident(),
+      other : new Incident()
+    };
+
+    for (var i = 0; i < incidents.length; i++) {
+      var incident = incidents[i];
+      incidentInfos[incident.type].occ++;
+      if (incident.type === 'assault' && incidentInfos.assault.occ > 1) {
+        incidentInfos.assault.msg = 'a few assaults occured in this area';
+      } else if (incident.type === 'theft' && incidentInfos.theft.occ > 1) {
+        incidentInfos.theft.msg = 'a few thefts occured in this area';
+      } else if (incident.type === 'other' && incidentInfos.other.occ > 10) {
+        incidentInfos.other.msg = 'a high number of incidents occured in this area';
+      }
+    }
+
+    for (incidentType in incidentInfos) {
+      if (incidentInfos[incidentType].msg) {
+        window.plugin.notification.local.add({ message: incident.msg });
+      }
+    }
+
+  };
+
+  $scope.trackLocation = function(onSuccessCallback) {
     var bgGeo = window.plugins.backgroundGeoLocation;
 
     var onSuccess = function(pos) {
@@ -296,11 +329,7 @@ angular.module('sfSense', ['ionic'])
 
       $scope.getCrimes(lat, lng, function(crimes){
 
-        if(crimes.length > 10){
-          var pushNotification = window.plugins.pushNotification;
-          window.plugin.notification.local.add({ message: 'WARNING!! You are entering a high crime area' });
-        }
-
+        onSuccessCallback(crimes);
       });
     };
 
