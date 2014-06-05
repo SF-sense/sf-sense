@@ -15,11 +15,9 @@ angular.module('sfSense', ['ionic'])
 
   // TODO: add marker img for each category
   var markerImg = {
-    'BURGLARY': 'robbery.png',
-    'LARCENY/THEFT': 'theft.png',
-    'ASSAULT': 'robbery.png',
-    'MISSING PERSON': 'missing.png',
-    'DEFAULT': 'blast.png'
+    'theft': 'theft.png',
+    'assault': 'robbery.png',
+    'other': 'blast.png'
   };
 
   var createMarker = function(crime) {
@@ -29,10 +27,10 @@ angular.module('sfSense', ['ionic'])
 
       var icon;
 
-      if(markerImg[crime.category]){
-        icon = iconPath + markerImg[crime.category];
+      if(markerImg[crime.type]){
+        icon = iconPath + markerImg[crime.type];
       } else {
-        icon = iconPath + markerImg.DEFAULT;
+        icon = iconPath + markerImg.other;
       }
 
       var newMarker = new google.maps.Marker({
@@ -197,6 +195,9 @@ angular.module('sfSense', ['ionic'])
 
 .controller('MapCtrl', function($scope, $http, googleMaps, loaderService){
 
+  // add an event listener to update the map location on resume
+  document.addEventListener("resume", function(){$scope.resume();}, false);
+  
   $scope.filters = ['other', 'assault', 'theft'];
   $scope.searchClear = true;
 
@@ -206,11 +207,14 @@ angular.module('sfSense', ['ionic'])
   };  
 
   var init = function() {
+    alert('loading screen');
     // SF center lat and lng
     var lat = 37.783522;
     var lng = -122.408964;
 
     googleMaps.createMap(lat, lng);
+    $scope.getCrimes(lat, lng);
+
 
     // After map has been created, add listeners here
     googleMaps.addListener('dragend', function(){
@@ -222,7 +226,11 @@ angular.module('sfSense', ['ionic'])
     //$scope.trackLocation();
   };
 
-  $scope.gpsSearchCrime = function(){
+  $scope.resume = function() {
+    $scope.gpsSearchCrime();
+  };
+
+  $scope.gpsSearchCrime = function() {
 
     var onSuccess = function(pos){
       var lat = pos.coords.latitude;
