@@ -52,7 +52,8 @@ angular.module('sfSense', ['ionic'])
       }
       // Make a new InfoWindow and associate it to the marker
       newMarker.info = new google.maps.InfoWindow({
-        content: '<div>' + newMarker.description + '</div>'
+        content: '<div>' + newMarker.description + '</div>',
+        maxWidth: 100
       });
       // Add the map listener here
       google.maps.event.addListener(newMarker, 'mouseover', function(){
