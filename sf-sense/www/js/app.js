@@ -10,6 +10,7 @@ angular.module('sfSense', ['ionic'])
   var map;
   var markers = {};
   var filterOn = 'all';
+  var selfMarker;
 
   var iconPath = '../www/img/icons/markers/';
 
@@ -140,10 +141,34 @@ angular.module('sfSense', ['ionic'])
       cb(lat, lng);
     },
 
+    setSelf: function(lat, lng){
+      // debugging stuff
+      navigator.notification.alert('inside setSelf');
+
+      //remove current self marker from the map and set to null
+      // if (selfMarker) {
+      //   selfMarker.setMap(null);
+      // }
+      // selfMarker = null;
+
+      var latlng = new google.maps.LatLng(lat, lng);
+      var icon = iconPath +'selfpin.png';
+
+      selfMarker = new google.maps.Marker({
+        position: latlng,
+        animation: google.maps.Animation.DROP,
+        title: 'You Are Here',
+        icon: icon
+      });
+
+      selfMarker.setMap(map);
+      
+    },
+
     filterBy: function(filter){
       filterOn = filter;
       // The filter will match the type field on the markers
-      for (var markerID in markers) {
+      for (var markerID in markers){
         
         var marker = markers[markerID];
         var cat = marker.type;
@@ -189,7 +214,7 @@ angular.module('sfSense', ['ionic'])
     hide : function(){
       $ionicLoading.hide();
     }
-  }
+  };
 })
 
 .controller('MapCtrl', function($scope, $http, googleMaps, loaderService){
@@ -211,7 +236,8 @@ angular.module('sfSense', ['ionic'])
     var lng = -122.408964;
 
     googleMaps.createMap(lat, lng);
-    $scope.getCrimes(lat, lng);
+    // $scope.gpsSearchCrime();
+    googleMaps.setSelf(lat, lng);
 
     // After map has been created, add listeners here
     googleMaps.addListener('dragend', function(){
@@ -232,6 +258,9 @@ angular.module('sfSense', ['ionic'])
     var onSuccess = function(pos){
       var lat = pos.coords.latitude;
       var lng = pos.coords.longitude;
+      // display self marker
+      googleMaps.setSelf(lat, lng);
+      // display crimes
       googleMaps.searchLoc(lat, lng, $scope.getCrimes);
     };
 
