@@ -154,6 +154,16 @@ angular.module('sfSense', ['ionic'])
       });
 
       selfMarker.setMap(map);
+
+      selfMarker.info = new google.maps.InfoWindow({
+        content: '<div>You Are Here</div>',
+        maxWidth: 100
+      });
+
+      google.maps.event.addListener(newMarker, 'mouseover', function(){
+        // Open the pertinent info window
+        selfMarker.info.open(map, selfMarker);
+      });
       
     },
 
