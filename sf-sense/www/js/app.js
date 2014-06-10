@@ -142,14 +142,6 @@ angular.module('sfSense', ['ionic'])
     },
 
     setSelf: function(lat, lng){
-      // debugging stuff
-      navigator.notification.alert('inside setSelf');
-
-      //remove current self marker from the map and set to null
-      // if (selfMarker) {
-      //   selfMarker.setMap(null);
-      // }
-      // selfMarker = null;
 
       var latlng = new google.maps.LatLng(lat, lng);
       var icon = iconPath +'selfpin.png';
@@ -236,8 +228,7 @@ angular.module('sfSense', ['ionic'])
     var lng = -122.408964;
 
     googleMaps.createMap(lat, lng);
-    // $scope.gpsSearchCrime();
-    googleMaps.setSelf(lat, lng);
+    $scope.gpsSearchCrime();
 
     // After map has been created, add listeners here
     googleMaps.addListener('dragend', function(){
