@@ -143,6 +143,12 @@ angular.module('sfSense', ['ionic'])
 
     setSelf: function(lat, lng){
 
+      // remove old selfMarker if it exists
+      if (selfMarker.setMap) {
+        selfMarker.setMap(null);
+      }
+      selfMarker = null;
+
       var latlng = new google.maps.LatLng(lat, lng);
       var icon = iconPath +'selfpin.png';
 
