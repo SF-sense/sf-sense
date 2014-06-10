@@ -267,8 +267,10 @@ angular.module('sfSense', ['ionic'])
       var lng = pos.coords.longitude;
       // display self marker
       googleMaps.setSelf(lat, lng);
+      navigator.notification.alert('in gpsSearchCrime after setSelf');
       // display crimes
-      googleMaps.searchLoc(lat, lng, $scope.getCrimes);
+      googleMaps.searchLoc(lat, lng, function(){ navigator.notification.alert(lat, lng); $scope.getCrimes; });
+      navigator.notification.alert('in gpsSearchCrime after getCrimes');
     };
 
     var onError = function(error) {
